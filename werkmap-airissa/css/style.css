@@ -32,7 +32,7 @@ h3 {
     font-family: "Segoe UI Semibold";
 }
 
-header {
+header, h1 {
     min-height: calc(25vh - 80px);
 
     display: flex;
@@ -60,4 +60,37 @@ header {
 
 img {
     width: 25vw;
+}
+
+/* Airissa's CSS*/
+
+main {
+    padding: 2vw;
+}
+
+form {
+    img {
+        height: 15vw;
+        width: auto;
+    }
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+#search-bar {
+    height: 20vw;
+    width: 30vw;
+}
+
+#play-form {
+    display: flex;
+    justify-content: center;
+}
+
+.form-search {
+
 }

@@ -1,0 +1,63 @@
+/* start css - Sissi */
+
+/* de kleuren van de styleguide */
+:root {
+    --products-white: #ffffff;
+    --products-lightergrey: #d1d3d4;
+    --products-lightgrey: #a7a9ac;
+    --products-grey: #808285;
+    --products-darkgrey: #58595b;
+    --products-darkergrey: #414042;
+    --products-red: #a71e23;
+    --products-green: #277a1b;
+}
+
+* {
+    margin: 0;
+    background-color: var(--products-lightergrey);
+}
+
+h1 {
+    font-size: 3rem;
+    font-family: "Segoe UI Black";
+}
+
+h2 {
+    font-size: 2rem;
+    font-family: "Segoe UI";
+}
+
+h3 {
+    font-size: 1.5rem;
+    font-family: "Segoe UI Semibold";
+}
+
+header {
+    min-height: calc(25vh - 80px);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#products-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 2vw;
+
+    background-color: var(--products-white);
+}
+
+.product-card {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0.5vw;
+
+    max-width: 35vw;
+}
+
+img {
+    width: 25vw;
+}

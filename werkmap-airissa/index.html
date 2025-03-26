@@ -6,10 +6,8 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>ShopNav</title>
-    <script
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAToR6dTtKlWaNSMtmyO34BjUR1lrG_W2g&callback=console.debug&libraries=maps,marker&v=beta">
-    </script>
     <link rel="stylesheet" href="css/style.css">
+    <script type="text/javascript" src="js/main.js" defer></script>
 </head>
 
 <body>
@@ -19,11 +17,14 @@
 <main>
     <h1>Vind winkel + Stad</h1>
     <form id="play-form" action="#" method="post">
-        <input type="text" id="adres" name="adres" placeholder="winkel en stad"/>
-        <input type="submit" value="zoek!" name="button"/>
-        <img src="img/CLE3-ShopNav-Icons-02.png" alt="microfoon">
+        <div class="form-search">
+            <input type="text" id="search-bar" name="adres" placeholder="winkel en stad"/>
+            <input type="submit" value="zoek" name="button"/>
+        </div>
+        <img id="mic-icon" src="img/CLE3-ShopNav-Icons-02.png" alt="microfoon">
     </form>
 
+    <section id="shop-gallery"></section>
 </main>
 </body>
 </html>

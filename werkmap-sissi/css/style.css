@@ -28,7 +28,7 @@ h2 {
 }
 
 h3 {
-    font-size: 1.5rem;
+    font-size: 2rem;
     font-family: "Segoe UI Semibold";
 }
 
@@ -40,10 +40,35 @@ header {
     align-items: center;
 }
 
+/* find product page css */
+#find-product {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+
+    padding: 10vh 0;
+}
+
+#find-product img {
+    width: 15vw;
+}
+
+#find-product input {
+    width: 50%;
+    height: 10vh;
+    padding: 0 1vw;
+
+    background-color: var(--products-white);
+    border-color: var(--products-white);
+}
+
+/* product display page css */
 #products-gallery {
     display: flex;
     flex-wrap: wrap;
     padding: 2vw;
+    gap: 10px;
 
     background-color: var(--products-white);
 }
@@ -52,12 +77,62 @@ header {
     display: flex;
     flex: 1;
     flex-direction: column;
+    align-items: center;
     gap: 10px;
     padding: 0.5vw;
 
     max-width: 35vw;
 }
 
+.product-card h3 {
+    align-self: flex-end;
+}
+
 img {
+    flex: 1;
     width: 25vw;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10vw;
+}
+
+button {
+    padding: 5vh 7vw;
+    background-color: var(--products-darkgrey);
+    color: var(--products-white);
+    border-color: var(--products-white);
+}
+
+@media (max-width: 480px) {
+    #find-product img {
+        width: 20vw;
+    }
+
+    #find-product input {
+        height: 5vh;
+    }
+
+    .product-card {
+        max-width: 50vw;
+    }
+
+    .product-card h2 {
+        font-size: 1.5rem;
+    }
+
+    .product-card h3 {
+        font-size: 1.5rem;
+    }
+
+    img {
+        width: 35vw;
+    }
+
+    button {
+        padding: 3vh 5vw;
+    }
 }

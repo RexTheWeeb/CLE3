@@ -3,11 +3,45 @@ window.addEventListener('load', init);
 
 const apiUrl = 'webservice/index.php';
 let productGallery;
+let findProduct;
 
 function init() {
     productGallery = document.querySelector('#products-gallery');
+    findProduct = document.querySelector('#find-product');
 
+    createFindProduct();
     getProductData();
+}
+
+function createFindProduct() {
+    const div = document.createElement('div');
+    div.classList.add('top-buttons');
+    findProduct.appendChild(div);
+
+    const backIcon = document.createElement('img');
+    backIcon.src = 'webservice/img/CLE3-ShopNav-Icons-05.png';
+    backIcon.alt = 'back';
+    div.appendChild(backIcon);
+
+    const homeIcon = document.createElement('img');
+    homeIcon.src = 'webservice/img/CLE3-ShopNav-Icons-04.png';
+    homeIcon.alt = 'home';
+    div.appendChild(homeIcon);
+
+    const findProductText = document.createElement('h2');
+    findProductText.classList.add('findProduct');
+    findProductText.innerText = 'Vind Product';
+    findProduct.appendChild(findProductText);
+
+    const searchInput = document.createElement('input');
+    searchInput.setAttribute('type', 'text');
+    searchInput.setAttribute('placeholder', 'zoek...');
+    findProduct.appendChild(searchInput);
+
+    const micIcon = document.createElement('img');
+    micIcon.src = 'webservice/img/CLE3-ShopNav-Icons-01.png';
+    micIcon.alt = 'microphone';
+    findProduct.appendChild(micIcon);
 }
 
 function getProductData() {

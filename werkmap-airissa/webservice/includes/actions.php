@@ -11,7 +11,7 @@ function getShopAdress(): array
         [
             "id" => 1,
             "shop" => "Jumbo",
-            "adress" => "Wijnhaven 73Z, Rotterdam"
+            "address" => "Wijnhaven 73Z, Rotterdam"
         ],
         [
             "id" => 2,
@@ -26,12 +26,12 @@ function getShopAdress(): array
         [
             "id" => 4,
             "shop" => "Jumbo",
-            "address" => "Willem Buytewechstraat 49B, Rotterdam"
+            "address" => "Hesseplaats 435, Rotterdam"
         ],
         [
             "id" => 5,
             "shop" => "Jumbo",
-            "addres" => "Vijf Werelddelen 33, Rotterdam"
+            "address" => "Vijf Werelddelen 33, Rotterdam"
         ],
         [
             "id" => 6,
@@ -46,7 +46,7 @@ function getShopAdress(): array
         [
             "id" => 8,
             "shop" => "Jumbo",
-            "address" => "Hoogstraat 1005, Rotterdam"
+            "address" => "Siciliëboulevard 402, Rotterdam"
         ],
         [
             "id" => 9,
@@ -56,7 +56,7 @@ function getShopAdress(): array
         [
             "id" => 10,
             "shop" => "Jumbo",
-            "address" => "Gerrit Jan Mulderstraat 20, Rotterdam"
+            "address" => "Botersloot 13-19, Rotterdam"
         ]
 
 

@@ -31,7 +31,7 @@ function createShopAddressCards(data) {
     for (let shopAddress of data) {
         const shopAddressCard = document.createElement('div');
         shopAddressCard.classList.add('shopAddress-card');
-        shopAddressCard.dataset.shopAddress = shopAddress.shopAddress;
+        shopAddressCard.dataset.id = shopAddress.id;
 
         gallery.appendChild(shopAddressCard);
         fillShopAddressCard(shopAddress);
@@ -39,31 +39,32 @@ function createShopAddressCards(data) {
     }
 }
 
-function fillShopAddressCard(movie) {
-    const shopAddressCard = document.querySelector(`.shopAddress-card[data-name='${shopAddress.id}']`);
+function fillShopAddressCard(shopAddress) {
+    const shopAddressCard = document.querySelector(`.shopAddress-card[data-id='${shopAddress.id}']`);
 
-    // Add title
     const title = document.createElement('h2');
-    title.innerText = `${shopAddress.shop} (${shopAddress.address})`;
+    title.innerText = `${shopAddress.shop}`;
     shopAddressCard.appendChild(title);
 
     // add img
     const shopImage = document.createElement('img');
-    shopImage.src = `img/${shopAddress.shop}.png`;
+    shopImage.src = 'img/Jumbo.png';
     shopImage.alt = shopAddress.shop;
-    shopAdressCard.appendChild(shopImage);
+    shopAddressCard.appendChild(shopImage);
+
+    // Add title adress
+    const address = document.createElement('h3');
+    address.innerText = `${shopAddress.address}`;
+    shopAddressCard.appendChild(address);
 
 }
 
-// function fillShopAdressCard(shopAdress) {
-//     const shopAdressCard = document.querySelector(`.shopAdress-card[data-name='${shopAdress.shopAdress}']`)
-//
-// //     add title
-//     const shopName = document.createElement('h2');
-//     shopName.innerText = `${shopAdress.shopAdress}`;
-//     shopAdressCard.appendChild(shopName);
-//
-// }
+function shopClickHandler(e) {
+    console.log(e.target);
+    const clickedItem = e.target;
+
+
+}
 
 function errorHandler(error) {
     console.log(error);

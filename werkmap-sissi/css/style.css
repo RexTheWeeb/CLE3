@@ -88,7 +88,7 @@ header {
     align-self: flex-end;
 }
 
-img {
+.product-card img {
     flex: 1;
     width: 25vw;
 }
@@ -128,8 +128,8 @@ button {
         font-size: 1.5rem;
     }
 
-    img {
-        width: 35vw;
+    .product-card img {
+        width: 40vw;
     }
 
     button {

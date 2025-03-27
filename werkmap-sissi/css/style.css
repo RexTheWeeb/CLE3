@@ -93,19 +93,19 @@ header {
     width: 25vw;
 }
 
-.buttons {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10vw;
-}
+/*.buttons {*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    gap: 10vw;*/
+/*}*/
 
-button {
-    padding: 5vh 7vw;
-    background-color: var(--products-darkgrey);
-    color: var(--products-white);
-    border-color: var(--products-white);
-}
+/*button {*/
+/*    padding: 5vh 7vw;*/
+/*    background-color: var(--products-darkgrey);*/
+/*    color: var(--products-white);*/
+/*    border-color: var(--products-white);*/
+/*}*/
 
 @media (max-width: 480px) {
     #find-product img {
@@ -132,7 +132,7 @@ button {
         width: 40vw;
     }
 
-    button {
-        padding: 3vh 5vw;
-    }
+    /*button {*/
+    /*    padding: 3vh 5vw;*/
+    /*}*/
 }

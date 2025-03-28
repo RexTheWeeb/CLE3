@@ -14,7 +14,6 @@
 
 * {
     margin: 0;
-    background-color: var(--products-lightergrey);
 }
 
 h1 {
@@ -32,8 +31,13 @@ h3 {
     font-family: "Segoe UI Semibold";
 }
 
+p {
+    font-family: "Segoe UI";
+}
+
 header {
     min-height: calc(25vh - 80px);
+    background-color: var(--products-lightergrey);
 
     display: flex;
     justify-content: center;
@@ -48,6 +52,7 @@ header {
     gap: 10px;
 
     padding: 10vh 0;
+    background-color: var(--products-lightergrey);
 }
 
 #find-product img {
@@ -56,7 +61,7 @@ header {
 
 #find-product input {
     width: 50%;
-    height: 10vh;
+    height: 8vh;
     padding: 0 1vw;
 
     background-color: var(--products-white);
@@ -82,6 +87,7 @@ header {
     padding: 0.5vw;
 
     max-width: 35vw;
+    background-color: var(--products-lightergrey);
 }
 
 .product-card h3 {
@@ -91,6 +97,16 @@ header {
 .product-card img {
     flex: 1;
     width: 25vw;
+}
+
+footer {
+    padding: 5vh 10vw;
+    text-align: center;
+    background-color: var(--products-lightgrey);
+}
+
+footer h3 {
+    font-size: 1.5rem;
 }
 
 /*.buttons {*/

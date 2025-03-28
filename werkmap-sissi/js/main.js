@@ -7,12 +7,14 @@ let findProduct;
 
 function init() {
     productGallery = document.querySelector('#products-gallery');
+    productGallery.addEventListener('click', productClickHandler);
     findProduct = document.querySelector('#find-product');
 
     createFindProduct();
     getProductData();
 }
 
+// Find product page
 function createFindProduct() {
     const div = document.createElement('div');
     div.classList.add('top-buttons');
@@ -41,9 +43,19 @@ function createFindProduct() {
     const micIcon = document.createElement('img');
     micIcon.src = 'webservice/img/CLE3-ShopNav-Icons-01.png';
     micIcon.alt = 'microphone';
+    micIcon.addEventListener('click', micClickHandler);
     findProduct.appendChild(micIcon);
 }
 
+function micClickHandler(e) {
+    e.preventDefault();
+    console.log(e.target);
+}
+
+// Scan products page
+
+
+// Show products page
 function getProductData() {
     fetch(apiUrl)
         .then(response => {
@@ -87,6 +99,11 @@ function fillProductCard(product) {
     productPrice.classList.add('price');
     productPrice.innerText = `€${product.price}`;
     productCard.appendChild(productPrice);
+}
+
+function productClickHandler(e) {
+    e.preventDefault();
+    console.log(e.target);
 }
 
 function ajaxErrorHandler(error) {

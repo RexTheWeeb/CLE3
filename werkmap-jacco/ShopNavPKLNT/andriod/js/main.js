@@ -1,11 +1,13 @@
+// noinspection DuplicatedCode,EqualityComparisonWithCoercionJS
+
 window.addEventListener('load', init);
 let target = null;
 let button = null;
-let d = new Date();
-let timer = null;
 let pointerTop;
 let pointerLeft;
 let gpsLocation;
+let moveTest = 0;
+let pointer;
 
 const gpsOptions = {
     enableHighAccuracy: true,
@@ -29,10 +31,11 @@ function init() {
 
 }
 
+//start button code
 function buttonClickHandler() {
 
     createExitButton();
-    if (document.getElementById('shop-map') == undefined) {
+    if (document.getElementById('shop-map') == undefined) {     //test if map is already drawn
         createMap();
     }
     navigator.geolocation.getCurrentPosition(showCurrentLocation);
@@ -91,13 +94,13 @@ function stopWatchingPos() {
 
 
 function showCurrentLocation(location) {
-    console.log(`showCurrentLocation`)
+    console.log(`showCurrentLocation`);
 
-    const pointer = document.createElement("img");
+    pointer = document.createElement("img");
     pointer.id = ('pointer-arrow');
     pointer.src = "./images/map_arrow.png";
     pointer.alt = 'Pointer';
-    updatePointerPosition(location)
+    updatePointerPosition(location);
     pointer.style.top = pointerTop;
     pointer.style.left = pointerLeft;
     document.getElementById('navigator-window').appendChild(pointer);
@@ -105,9 +108,6 @@ function showCurrentLocation(location) {
 }
 
 function startUpdating() {
-    const pointer = document.getElementById('pointer-arrow');
-    pointer.style.top = pointerTop;
-    pointer.style.left = pointerLeft;
     gpsLocation = navigator.geolocation.watchPosition(updatePointerPosition, error, gpsOptions);
     console.log('starts updating')
 }
@@ -115,21 +115,31 @@ function startUpdating() {
 async function updatePointerPosition(location) {
     const userLatitude = location.coords.latitude;
     const userLongitude = location.coords.longitude;
-    console.log(`userLatitude is ${userLatitude} and userLongitude is ${userLongitude}`);
+    console.log(`userLongitude is ${userLongitude} and userLatitude is ${userLatitude}`);
 
     //51.917750,4.483382 top right school   delta lat 541
     //51.917209,4.485143 bottom left school delta long 1761
 
-    let latitudeScreenPos = (51.92 - parseFloat(userLatitude)) / 0.01 * 100;
-    let longitudeScreenPos = ((parseFloat(userLongitude) - 4.484)) / 2 * 100;
-    
+    let latitudeScreenPos = (51.918 - parseFloat(userLatitude)) * 1000;
+    let longitudeScreenPos = (parseFloat(userLongitude) - 4.484) * 1000;
+    console.log(`longitudeScreenPos is ${longitudeScreenPos} and latitudeScreenPos is ${latitudeScreenPos}`);
+
+    latitudeScreenPos = latitudeScreenPos / 2.5 * 100;
+    longitudeScreenPos = longitudeScreenPos / 1.7 * 100;
 
     pointerTop = latitudeScreenPos + '%';
     pointerLeft = longitudeScreenPos + '%';
+    pointer.style.top = pointerTop;
+    pointer.style.left = pointerLeft;
 
     console.log(`pointerTop is ${pointerTop} and pointerLeft is ${pointerLeft}`);
 }
 
+/*
+userLongitude is 4.4848708 and userLatitude is 51.9173339
+longitudeScreenPos is 0.8708000000003935 and latitudeScreenPos is 0.26660999999990054
+pointerTop is 15.682941176464738% and pointerLeft is 16.125925925933213%
+*/
 function error(err) {
     console.warn(`ERROR(${err.code}): ${err.message}`);
 }

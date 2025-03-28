@@ -47,3 +47,15 @@ button {
     color: ghostwhite;
     background-color: #0a53be;
 }
+
+#test-slider {
+    width: 180px;
+    min-height: 40px;
+    padding: 5px;
+    border-radius: 3px;
+    position: absolute;
+    align-self: end;
+    justify-self: flex-start;
+
+    z-index: 2;
+}

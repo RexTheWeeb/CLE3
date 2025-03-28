@@ -1,12 +1,13 @@
+// noinspection DuplicatedCode,EqualityComparisonWithCoercionJS
+
 window.addEventListener('load', init);
 let target = null;
 let button = null;
-let d = new Date();
-let timer = null;
 let pointerTop;
 let pointerLeft;
 let gpsLocation;
 let moveTest = 0;
+let pointer;
 
 const gpsOptions = {
     enableHighAccuracy: true,
@@ -30,10 +31,11 @@ function init() {
 
 }
 
+//start button code
 function buttonClickHandler() {
 
     createExitButton();
-    if (document.getElementById('shop-map') == undefined) {
+    if (document.getElementById('shop-map') == undefined) {     //test if map is already drawn
         createMap();
     }
     navigator.geolocation.getCurrentPosition(showCurrentLocation);
@@ -92,13 +94,13 @@ function stopWatchingPos() {
 
 
 function showCurrentLocation(location) {
-    console.log(`showCurrentLocation`)
+    console.log(`showCurrentLocation`);
 
-    const pointer = document.createElement("img");
+    pointer = document.createElement("img");
     pointer.id = ('pointer-arrow');
     pointer.src = "./images/map_arrow.png";
     pointer.alt = 'Pointer';
-    updatePointerPosition(location)
+    updatePointerPosition(location);
     pointer.style.top = pointerTop;
     pointer.style.left = pointerLeft;
     document.getElementById('navigator-window').appendChild(pointer);
@@ -106,9 +108,6 @@ function showCurrentLocation(location) {
 }
 
 function startUpdating() {
-    const pointer = document.getElementById('pointer-arrow');
-    pointer.style.top = pointerTop;
-    pointer.style.left = pointerLeft;
     gpsLocation = navigator.geolocation.watchPosition(updatePointerPosition, error, gpsOptions);
     console.log('starts updating')
 }
@@ -118,13 +117,18 @@ async function updatePointerPosition(location) {
     const userLongitude = location.coords.longitude;
     console.log(`userLongitude is ${userLongitude} and userLatitude is ${userLatitude}`);
 
-    //51.917750,4.483382 top right school   delta lat 541
-    //51.917209,4.485143 bottom left school delta long 1761
+    moveTest = parseFloat(document.getElementById('gpsTest').value);
+    console.log(`gps test slider is currently set to ${moveTest}`);
+
+    document.getElementById('pointer-arrow');
 
     let latitudeScreenPos = (51.92 - parseFloat(userLatitude)) / 0.01 * 100 + moveTest;
     let longitudeScreenPos = ((parseFloat(userLongitude) - 4.474)) / 0.025 * 100 + moveTest;
+
     pointerTop = latitudeScreenPos + '%';
     pointerLeft = longitudeScreenPos + '%';
+    pointer.style.top = pointerTop;
+    pointer.style.left = pointerLeft;
 
     console.log(`pointerTop is ${pointerTop} and pointerLeft is ${pointerLeft}`);
 }

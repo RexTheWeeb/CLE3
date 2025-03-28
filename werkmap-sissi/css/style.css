@@ -38,8 +38,16 @@ body {
         background-color: var(--products-darkergrey);
     }
 
+    header img {
+        filter: invert(1);
+    }
+
     #find-product {
         background-color: var(--products-darkergrey);
+    }
+
+    #find-product img {
+        filter: invert(1);
     }
 
     #products-gallery {
@@ -85,6 +93,10 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+header img {
+    width: 20vw;
 }
 
 /* find product page css */

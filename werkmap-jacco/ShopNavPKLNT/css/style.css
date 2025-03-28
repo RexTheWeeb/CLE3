@@ -1,0 +1,49 @@
+body {
+    box-sizing: border-box;
+    background-color: whitesmoke;
+}
+
+main {
+    display: flex;
+    flex-flow: column wrap;
+    align-content: center;
+    justify-content: center;
+    height: 95vh;
+}
+
+.pointerDiv {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+button {
+    max-height: 15px;
+    z-index: 1;
+}
+
+#shop-map {
+    width: auto;
+    z-index: -1;
+}
+
+#pointer-arrow {
+    z-index: 1;
+    position: absolute;
+    height: 50px;
+    width: 50px;
+}
+
+#start-button, #exit-button {
+    width: 180px;
+    min-height: 40px;
+    padding: 5px;
+    border-radius: 3px;
+    position: absolute;
+    align-self: flex-start;
+
+
+    z-index: 2;
+    font-size: large;
+    color: ghostwhite;
+    background-color: #0a53be;
+}

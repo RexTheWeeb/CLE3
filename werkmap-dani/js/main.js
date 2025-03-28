@@ -5,11 +5,17 @@ let productList = [];
 let productDetails;
 let productGallery;
 let confirmationScreen;
+let dialogButton;
+let confirmButtonCheck;
+let confirmButtonCancel;
 
 function init() {
     productGallery = document.querySelector('#products-gallery');
     productDetails = document.querySelector('#details-list');
     confirmationScreen = document.querySelector('#confirmation-screen');
+    dialogButton = document.querySelector('#close-button');
+    confirmButtonCheck = document.querySelector('#confirm-check');
+    confirmButtonCancel = document.querySelector('#confirm-cancel');
     getProductData();
 }
 
@@ -94,8 +100,9 @@ function fetchProductDetails(id) {
 }
 
 function displayProductDetails(product, details) {
+    dialogButton.style.display = "block";
     productDetails.innerHTML =
-        `<div class="details-box">
+        `<div class="details-list">
          <img src="webservice/img/${product.id}.avif" alt="${product.name}" class="details-image">
          <h2>${product.name}</h2>
          <p><strong>Ingredienten:</strong> ${details.ingredients}</p>
@@ -103,7 +110,12 @@ function displayProductDetails(product, details) {
          <p><strong>Allergien:</strong> ${details.allergies}</p>
          </div>
         `
+    productDetails.appendChild(dialogButton);
     productDetails.style.display = "block";
+    productDetails.showModal();
+    dialogButton.addEventListener("click", () => {
+        productDetails.close();
+    })
 }
 
 function createConfirmationScreen(id) {
@@ -128,13 +140,20 @@ function createConfirmationScreen(id) {
 }
 
 function productConfirmationScreen(product) {
-
+    confirmButtonCheck.style.display = "block";
+    confirmButtonCancel.style.display = "block";
     confirmationScreen.innerHTML =
         `
         <div class="confirmation-box">
          <img src="webservice/img/${product.id}.avif" alt="${product.name}" class="details-image">
          <h2>${product.name}</h2>
-         <p>✔</p>
-         <p>❌</p>
-    `
+          `
+    confirmationScreen.appendChild(confirmButtonCheck);
+    confirmationScreen.appendChild(confirmButtonCancel);
+    confirmButtonCheck.addEventListener("click", () => {
+
+    })
+    confirmButtonCancel.addEventListener("click", () => {
+
+    })
 }

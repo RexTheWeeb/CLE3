@@ -3,11 +3,16 @@
 window.addEventListener('load', init);
 let target = null;
 let button = null;
+// let zoom;
+
+let moveTest = 0;
+let pointer;
+// let zoomAmount;
+
 let pointerTop;
 let pointerLeft;
 let gpsLocation;
-let moveTest = 0;
-let pointer;
+// let scrollPos = 0;
 
 const gpsOptions = {
     enableHighAccuracy: true,
@@ -19,6 +24,7 @@ const gpsOptions = {
 function init() {
     target = document.getElementById('target');
     button = document.getElementById('start-button');
+    // zoom = document.getElementById('navigator-window');
 
 
     if (typeof navigator.geolocation === 'undefined') {
@@ -28,7 +34,7 @@ function init() {
 
 
     button.addEventListener('click', buttonClickHandler);
-
+    // zoom.addEventListener('wheel', scrollZoomHandler);
 }
 
 //start button code
@@ -41,32 +47,22 @@ function buttonClickHandler() {
     navigator.geolocation.getCurrentPosition(showCurrentLocation);
 }
 
-//draws the map as the bottom layer
-function createMap() {
-    console.log(`creating the map`)
-    const mapImage = document.createElement("img");
-    mapImage.id = 'shop-map';
-    mapImage.src = `./images/school-maps-view.png`;
-    mapImage.alt = "";
+/*function scrollZoomHandler() {
+    /!*  if scroll in enlarge image
+        if scroll out shrink image
+    *!/
+    console.log('starting scroll function');
+    // scrollPos = window.scr;
+    console.log('currently scroll pos is ' + scrollPos);
+    if (scrollPos >= 1) {
+        scrollPos = 1
+    } else if (scrollPos <= 0) {
+        scrollPos = 0;
+    }
 
-    mapImage.height = window.innerHeight * 0.95;
+    // document.getElementById('shop-map').transform = (scale(scrollPos))
 
-    document.getElementById('navigator-window').appendChild(mapImage);
-}
-
-//creates a stop button and removes the initial start button and
-function createExitButton() {
-    console.log('start creating exit button')
-    button.removeEventListener('click', buttonClickHandler);
-    button.remove();
-
-    const exitButton = document.createElement("button");
-    exitButton.id = ("exit-button");
-
-    exitButton.innerText = 'Stop tracking';
-    document.getElementById('mainid').appendChild(exitButton);
-    exitButton.addEventListener('click', stopWatchingPos);
-}
+}*/
 
 function stopWatchingPos() {
     /* stop watching pos
@@ -88,8 +84,41 @@ function stopWatchingPos() {
     button = document.createElement("button");
     button.id = ("start-button");
     button.innerText = 'Start tracking';
-    document.getElementById("mainid").appendChild(button);
+    document.getElementById("main-window").appendChild(button);
     button.addEventListener('click', buttonClickHandler);
+}
+
+//draws the map as the bottom layer
+function createMap() {
+    console.log(`creating the map`)
+    const mapImage = document.createElement("img");
+    mapImage.id = 'shop-map';
+    mapImage.src = `./images/school-maps-view.png`;
+    mapImage.alt = "";
+    if (window.innerHeight < window.innerWidth) {
+        const portraitForm = document.getElementById('navigator-window');
+        portraitForm.height = '80%';
+        portraitForm.width = 'auto';
+    } else {
+        mapImage.height = window.innerHeight;
+    }
+
+
+    document.getElementById('navigator-window').appendChild(mapImage);
+}
+
+//creates a stop button and removes the initial start button and
+function createExitButton() {
+    console.log('start creating exit button')
+    button.removeEventListener('click', buttonClickHandler);
+    button.remove();
+
+    const exitButton = document.createElement("button");
+    exitButton.id = ("exit-button");
+
+    exitButton.innerText = 'Stop tracking';
+    document.getElementById('main-window').appendChild(exitButton);
+    exitButton.addEventListener('click', stopWatchingPos);
 }
 
 
@@ -99,7 +128,7 @@ function showCurrentLocation(location) {
     pointer = document.createElement("img");
     pointer.id = ('pointer-arrow');
     pointer.src = "./images/map_arrow.png";
-    pointer.alt = 'Pointer';
+    pointer.alt = '';
     updatePointerPosition(location);
     pointer.style.top = pointerTop;
     pointer.style.left = pointerLeft;
@@ -130,6 +159,11 @@ async function updatePointerPosition(location) {
     pointer.style.top = pointerTop;
     pointer.style.left = pointerLeft;
 
+    if (document.getElementById('show-map') != 'undefined') {
+        console.log(`movetest is currently ${moveTest}`)
+        const mapTransform = document.getElementById('show-map');
+        mapTransform.style.transform = `translate(0, )`;
+    }
     console.log(`pointerTop is ${pointerTop} and pointerLeft is ${pointerLeft}`);
 }
 

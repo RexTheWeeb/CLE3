@@ -3,13 +3,37 @@ window.addEventListener('load', init);
 // globals
 const apiUrl = 'webservice/index.php';
 let gallery;
+let findShop;
 
 function init() {
     gallery = document.querySelector('#shop-gallery');
+    findShop = document.querySelector('#find-shop');
     // gallery.addEventListener('click', ShopClickHandler);
-
+    createShopAddress();
     getShopAddressData();
 
+}
+
+function createShopAddress() {
+    const homeIcon = document.createElement('img');
+    homeIcon.src = 'img/home-icon.png';
+    homeIcon.alt = 'home';
+    findShop.appendChild(homeIcon);
+
+    const searchProductBar = document.createElement('h2');
+    searchProductBar.classList.add('findAddress');
+    searchProductBar.innerText = 'Zoek Winkel + adres';
+    findShop.appendChild(searchProductBar);
+
+    const searchInput = document.createElement('input');
+    searchInput.setAttribute('type', 'text');
+    searchInput.setAttribute('placeholder', 'zoek...');
+    findShop.appendChild(searchInput);
+
+    const micIcon = document.createElement('img');
+    micIcon.src = 'img/microphone-icon.png';
+    micIcon.alt = 'microphone';
+    findShop.appendChild(micIcon);
 }
 
 function getShopAddressData() {

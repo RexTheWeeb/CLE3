@@ -14,7 +14,6 @@
 
 * {
     margin: 0;
-    background-color: var(--products-lightergrey);
 }
 
 h1 {
@@ -30,6 +29,11 @@ h2 {
 h3 {
     font-size: 1.5rem;
     font-family: "Segoe UI Semibold";
+}
+
+header {
+    background-color: var(--products-lightergrey);
+
 }
 
 header, h1 {
@@ -51,7 +55,32 @@ header, h1 {
     background-color: var(--products-white);
 }
 
+#find-shop {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--products-lightergrey);
+
+    img {
+        height: 20vh;
+        width: 10vw;
+    }
+
+    h2 {
+        font-size: 2rem;
+    }
+
+    input {
+        background-color: white;
+        border-color: white;
+        height: 20vh;
+        width: 20vw;
+    }
+
+}
+
 .shopAddress-card {
+    background-color: var(--products-lightergrey);
     display: flex;
     flex: 1;
     flex-direction: column;
@@ -66,35 +95,19 @@ header, h1 {
     width: 15vw;
 }
 
-main {
-    padding: 2vw;
-}
-
-form {
-    img {
-        height: 15vw;
-        width: auto;
-    }
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-}
-
-#search-bar {
-    height: 20vw;
-    width: 30vw;
-}
-
 #play-form {
     display: flex;
     justify-content: center;
 }
 
-.form-search {
+footer {
+    padding: 5vh 10vw;
+    text-align: center;
+    background-color: var(--products-lightgrey);
+}
 
+footer h3 {
+    font-size: 1.5rem;
 }
 
 @media (max-width: 480px) {
@@ -107,6 +120,19 @@ form {
     .shopAddress-card {
         max-width: 50vw;
 
+    }
+
+    #find-shop {
+        img {
+            height: 15vh;
+            width: auto;
+        }
+
+        input {
+
+            height: 5vh;
+            width: 30vw;
+        }
     }
 
     /*.product-card h2 {*/

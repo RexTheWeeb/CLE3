@@ -14,6 +14,11 @@ function init() {
     getProductData();
 }
 
+function modeSwitch() {
+    let body = document.body;
+    body.classList.toggle('dark-mode');
+}
+
 // Find product page
 function createFindProduct() {
     const div = document.createElement('div');

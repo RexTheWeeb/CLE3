@@ -74,6 +74,18 @@ body {
         background-color: var(--products-grey);
     }
 
+    #details-list {
+        background-color: var(--products-darkergrey);
+    }
+
+    /*#details-list h2 {*/
+    /*    color: var(--products-darkergrey);*/
+    /*}*/
+
+    /*#details-list p {*/
+    /*    color: var(--products-darkergrey);*/
+    /*}*/
+
     footer {
         background-color: var(--products-darkergrey);
     }
@@ -234,6 +246,22 @@ footer {
 }
 
 footer h3 {
+    font-size: 1.5rem;
+}
+
+#details-list {
+    display: flex;
+    justify-self: center;
+    align-self: center;
+
+    max-width: 75vw;
+    max-height: 80vh;
+
+    font-size: 1.5rem;
+}
+
+#details-list button {
+    padding: 3vh 5vw;
     font-size: 1.5rem;
 }
 

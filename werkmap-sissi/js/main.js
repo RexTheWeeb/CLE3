@@ -46,7 +46,7 @@ function createFindProduct() {
     findProduct.appendChild(searchInput);
 
     const micIcon = document.createElement('img');
-    micIcon.src = 'webservice/img/CLE3-ShopNav-Icons-01.png';
+    micIcon.src = 'webservice/img/CLE3-ShopNav-Icons-02.png';
     micIcon.alt = 'microphone';
     micIcon.addEventListener('click', micClickHandler);
     findProduct.appendChild(micIcon);

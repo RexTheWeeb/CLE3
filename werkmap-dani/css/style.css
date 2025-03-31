@@ -61,3 +61,7 @@ header {
 img {
     width: 25vw;
 }
+
+body.open-dialog {
+    overflow: hidden;
+}

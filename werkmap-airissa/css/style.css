@@ -71,10 +71,12 @@ header, h1 {
     }
 
     input {
+        padding: 0 1vw;
         background-color: white;
         border-color: white;
-        height: 20vh;
-        width: 20vw;
+        height: 10vh;
+        width: 50vw;
+        font-size: 2rem;
     }
 
 }
@@ -111,12 +113,6 @@ footer h3 {
 }
 
 @media (max-width: 480px) {
-    /*#find-product img {*/
-    /*    width: 20vw;*/
-    /*}*/
-    /*#find-product input {*/
-    /*    height: 5vh;*/
-    /*}*/
     .shopAddress-card {
         max-width: 50vw;
 
@@ -131,7 +127,7 @@ footer h3 {
         input {
 
             height: 5vh;
-            width: 30vw;
+            width: 50%;
         }
     }
 
@@ -146,7 +142,4 @@ footer h3 {
         width: 40vw;
     }
 
-    /*button {*/
-    /*    padding: 3vh 5vw;*/
-    /*}*/
 }

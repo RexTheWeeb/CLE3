@@ -6,11 +6,11 @@ let button = null;
 // let zoom;
 
 let moveTest = 0;
-let pointer;
+let mapAlign;
 // let zoomAmount;
 
-let pointerTop;
-let pointerLeft;
+let mapBottom;
+let mapLeft;
 let gpsLocation;
 // let scrollPos = 0;
 
@@ -90,21 +90,43 @@ function stopWatchingPos() {
 
 //draws the map as the bottom layer
 function createMap() {
+    const navWindow = document.createElement("body");
+    navWindow.id = 'navigator-window';
+    navWindow.style.position = 'absolute';
+    navWindow.style.justifySelf = 'anchor-center'
+    if (window.innerHeight > window.innerWidth) {
+        navWindow.style.height = '80vh';
+        navWindow.style.width = '100vw';
+    } else {
+        navWindow.style.height = '100vh';
+        navWindow.style.width = '50vw';
+    }
+    document.getElementById('main-window').appendChild(navWindow);
+
+
+    const mapDiv = document.createElement("div");
+    mapDiv.id = 'map-div';
+    mapDiv.style.height = '100%';
+    mapDiv.style.width = '100%';
+    mapDiv.style.overflow = 'hidden';
+    navWindow.appendChild(mapDiv)
+
     console.log(`creating the map`)
     const mapImage = document.createElement("img");
     mapImage.id = 'shop-map';
     mapImage.src = `./images/school-maps-view.png`;
     mapImage.alt = "";
-    if (window.innerHeight < window.innerWidth) {
-        const portraitForm = document.getElementById('navigator-window');
-        portraitForm.height = '80%';
-        portraitForm.width = 'auto';
+    mapDiv.appendChild(mapImage);
+
+
+    if (window.innerHeight > window.innerWidth) {
+        navWindow.height = '80vh';
+        navWindow.width = '100vw';
     } else {
-        mapImage.height = window.innerHeight;
+        navWindow.height = '100vh';
     }
 
 
-    document.getElementById('navigator-window').appendChild(mapImage);
 }
 
 //creates a stop button and removes the initial start button and
@@ -125,15 +147,16 @@ function createExitButton() {
 function showCurrentLocation(location) {
     console.log(`showCurrentLocation`);
 
-    pointer = document.createElement("img");
+    const pointer = document.createElement("img");
     pointer.id = ('pointer-arrow');
     pointer.src = "./images/map_arrow.png";
     pointer.alt = '';
-    updatePointerPosition(location);
-    pointer.style.top = pointerTop;
-    pointer.style.left = pointerLeft;
+    pointer.style.position = 'fixed';
+    pointer.style.alignSelf = 'anchor-center';
+    pointer.style.justifySelf = 'anchor-center';
     document.getElementById('navigator-window').appendChild(pointer);
-    startUpdating(pointer);
+
+    startUpdating();
 }
 
 function startUpdating() {
@@ -146,27 +169,44 @@ async function updatePointerPosition(location) {
     const userLongitude = location.coords.longitude;
     console.log(`userLongitude is ${userLongitude} and userLatitude is ${userLatitude}`);
 
-    moveTest = parseFloat(document.getElementById('gpsTest').value);
+    moveTest = parseFloat(document.getElementById('position-test').value);
     console.log(`gps test slider is currently set to ${moveTest}`);
 
-    document.getElementById('pointer-arrow');
+    /*
+        phone pos Long: 4.4848634 & Lat: 51.9173283 delta: long: 0.001417881953371 lat: 0.00025713535765
+        51.91707116464235, 51.91782978433396, 0.00075861969161
+        4.483445518046629, 4.485128706174316, 0.001683188127687
+        51.91745720241767, 4.484286416720071 middle
 
-    let latitudeScreenPos = (51.92 - parseFloat(userLatitude)) / 0.01 * 100 + moveTest;
-    let longitudeScreenPos = ((parseFloat(userLongitude) - 4.474)) / 0.025 * 100 + moveTest;
+        delta pos = max value - phone pos
+        offset image = delta pos - 0.5 delta map
+     */
 
-    pointerTop = latitudeScreenPos + '%';
-    pointerLeft = longitudeScreenPos + '%';
-    pointer.style.top = pointerTop;
-    pointer.style.left = pointerLeft;
+    // let latitudeScreenPos = (51.96 - parseFloat(userLatitude)) / 0.1 * 100 /*+ moveTest*/;
+    // let longitudeScreenPos = ((parseFloat(userLongitude) - 4.474)) / 0.025 * 100 /*+ moveTest*/;
 
-    if (document.getElementById('show-map') != 'undefined') {
+    console.log(`window.innerHeight is ${window.innerHeight} window.innerWidth is ${window.innerWidth}`)
+
+    let longitudeScreenPos = 0.8023787751636664090267559123524 * 100;
+    let latitudeScreenPos = 0.33895159919232774633143562145927 * 100;
+
+    console.log(document.getElementById('navigator-window').height);
+
+    mapBottom = latitudeScreenPos + '%';
+    mapLeft = longitudeScreenPos + '%';
+    mapAlign.style.bottom = mapBottom;
+    mapAlign.style.left = mapLeft;
+
+    if (document.getElementById('show-map') != undefined) {
         console.log(`movetest is currently ${moveTest}`)
-        const mapTransform = document.getElementById('show-map');
-        mapTransform.style.transform = `translate(0, )`;
+        const mapTransform = document.getElementById('shop-map');
+        mapTransform.style.transform = `rotate(${moveTest}deg)`;
     }
-    console.log(`pointerTop is ${pointerTop} and pointerLeft is ${pointerLeft}`);
+    console.log(`pointerBottom is ${mapBottom} and pointerLeft is ${mapLeft}`);
 }
 
 function error(err) {
     console.warn(`ERROR(${err.code}): ${err.message}`);
 }
+
+

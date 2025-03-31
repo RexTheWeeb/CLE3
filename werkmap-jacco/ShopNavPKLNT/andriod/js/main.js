@@ -3,15 +3,20 @@
 window.addEventListener('load', init);
 let target = null;
 let button = null;
+// let zoom;
+
+let moveTest = 0;
+let pointer;
+// let zoomAmount;
+
 let pointerTop;
 let pointerLeft;
 let gpsLocation;
-let moveTest = 0;
-let pointer;
+// let scrollPos = 0;
 
 const gpsOptions = {
     enableHighAccuracy: true,
-    timeout: 3000,
+    timeout: 5000,
     maximumAge: 0,
 }
 
@@ -19,6 +24,7 @@ const gpsOptions = {
 function init() {
     target = document.getElementById('target');
     button = document.getElementById('start-button');
+    // zoom = document.getElementById('navigator-window');
 
 
     if (typeof navigator.geolocation === 'undefined') {
@@ -28,7 +34,7 @@ function init() {
 
 
     button.addEventListener('click', buttonClickHandler);
-
+    // zoom.addEventListener('wheel', scrollZoomHandler);
 }
 
 //start button code
@@ -41,32 +47,22 @@ function buttonClickHandler() {
     navigator.geolocation.getCurrentPosition(showCurrentLocation);
 }
 
-//draws the map as the bottom layer
-function createMap() {
-    console.log(`creating the map`)
-    const mapImage = document.createElement("img");
-    mapImage.id = 'shop-map';
-    mapImage.src = `./images/school-maps-view.png`;
-    mapImage.alt = "";
+/*function scrollZoomHandler() {
+    /!*  if scroll in enlarge image
+        if scroll out shrink image
+    *!/
+    console.log('starting scroll function');
+    // scrollPos = window.scr;
+    console.log('currently scroll pos is ' + scrollPos);
+    if (scrollPos >= 1) {
+        scrollPos = 1
+    } else if (scrollPos <= 0) {
+        scrollPos = 0;
+    }
 
-    mapImage.height = window.innerHeight * 0.95;
+    // document.getElementById('shop-map').transform = (scale(scrollPos))
 
-    document.getElementById('navigator-window').appendChild(mapImage);
-}
-
-//creates a stop button and removes the initial start button and
-function createExitButton() {
-    console.log('start creating exit button')
-    button.removeEventListener('click', buttonClickHandler);
-    button.remove();
-
-    const exitButton = document.createElement("button");
-    exitButton.id = ("exit-button");
-
-    exitButton.innerText = 'Stop tracking';
-    document.getElementById('mainid').appendChild(exitButton);
-    exitButton.addEventListener('click', stopWatchingPos);
-}
+}*/
 
 function stopWatchingPos() {
     /* stop watching pos
@@ -88,8 +84,41 @@ function stopWatchingPos() {
     button = document.createElement("button");
     button.id = ("start-button");
     button.innerText = 'Start tracking';
-    document.getElementById("mainid").appendChild(button);
+    document.getElementById("main-window").appendChild(button);
     button.addEventListener('click', buttonClickHandler);
+}
+
+//draws the map as the bottom layer
+function createMap() {
+    console.log(`creating the map`)
+    const mapImage = document.createElement("img");
+    mapImage.id = 'shop-map';
+    mapImage.src = `./images/school-maps-view.png`;
+    mapImage.alt = "";
+    if (window.innerHeight < window.innerWidth) {
+        const portraitForm = document.getElementById('navigator-window');
+        portraitForm.height = '80%';
+        portraitForm.width = 'auto';
+    } else {
+        mapImage.height = window.innerHeight;
+    }
+
+
+    document.getElementById('navigator-window').appendChild(mapImage);
+}
+
+//creates a stop button and removes the initial start button and
+function createExitButton() {
+    console.log('start creating exit button')
+    button.removeEventListener('click', buttonClickHandler);
+    button.remove();
+
+    const exitButton = document.createElement("button");
+    exitButton.id = ("exit-button");
+
+    exitButton.innerText = 'Stop tracking';
+    document.getElementById('main-window').appendChild(exitButton);
+    exitButton.addEventListener('click', stopWatchingPos);
 }
 
 
@@ -99,7 +128,7 @@ function showCurrentLocation(location) {
     pointer = document.createElement("img");
     pointer.id = ('pointer-arrow');
     pointer.src = "./images/map_arrow.png";
-    pointer.alt = 'Pointer';
+    pointer.alt = '';
     updatePointerPosition(location);
     pointer.style.top = pointerTop;
     pointer.style.left = pointerLeft;
@@ -117,29 +146,33 @@ async function updatePointerPosition(location) {
     const userLongitude = location.coords.longitude;
     console.log(`userLongitude is ${userLongitude} and userLatitude is ${userLatitude}`);
 
-    //51.917750,4.483382 top right school   delta lat 541
-    //51.917209,4.485143 bottom left school delta long 1761
+    moveTest = parseFloat(document.getElementById('position-test').value);
+    console.log(`gps test slider is currently set to ${moveTest}`);
 
-    let latitudeScreenPos = (51.918 - parseFloat(userLatitude)) * 1000;
-    let longitudeScreenPos = (parseFloat(userLongitude) - 4.484) * 1000;
-    console.log(`longitudeScreenPos is ${longitudeScreenPos} and latitudeScreenPos is ${latitudeScreenPos}`);
+    document.getElementById('pointer-arrow');
 
-    latitudeScreenPos = latitudeScreenPos / 2.5 * 100;
-    longitudeScreenPos = longitudeScreenPos / 1.7 * 100;
+    // 51.91707116464235, 51.91782978433396, 0.00075861969161
+    // 4.483445518046629, 4.485128706174316, 0.001683188127687
+    // 51.91745720241767, 4.484286416720071 middle
+
+    let latitudeScreenPos = (51.96 - parseFloat(userLatitude)) / 0.1 * 100 /*+ moveTest*/;
+    let longitudeScreenPos = ((parseFloat(userLongitude) - 4.474)) / 0.025 * 100 /*+ moveTest*/;
 
     pointerTop = latitudeScreenPos + '%';
     pointerLeft = longitudeScreenPos + '%';
     pointer.style.top = pointerTop;
     pointer.style.left = pointerLeft;
 
+    if (document.getElementById('show-map') != 'undefined') {
+        console.log(`movetest is currently ${moveTest}`)
+        const mapTransform = document.getElementById('shop-map');
+        mapTransform.style.transform = `rotate(${moveTest}deg)`;
+    }
     console.log(`pointerTop is ${pointerTop} and pointerLeft is ${pointerLeft}`);
 }
 
-/*
-userLongitude is 4.4848708 and userLatitude is 51.9173339
-longitudeScreenPos is 0.8708000000003935 and latitudeScreenPos is 0.26660999999990054
-pointerTop is 15.682941176464738% and pointerLeft is 16.125925925933213%
-*/
 function error(err) {
     console.warn(`ERROR(${err.code}): ${err.message}`);
 }
+
+

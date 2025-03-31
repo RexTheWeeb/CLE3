@@ -1,7 +1,7 @@
 // Start JS codes - Sissi
 window.addEventListener('load', init);
 
-const apiUrl = 'webservice/index.php';
+const apiUrl = 'webservice/products.php';
 let productGallery;
 let findProduct;
 

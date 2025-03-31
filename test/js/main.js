@@ -1,6 +1,13 @@
 window.addEventListener('load', init);
 
-const apiUrl = 'webservice/index.php';
+const productsApi = 'webservice/products.php';
+const shopsApi = 'webservice/shops.php';
+
+let gallery;
+let findShop;
+
+let findProduct;
+
 let body;
 let productList = [];
 let productDetails;
@@ -22,6 +29,15 @@ function init() {
     confirmButtonCancel = document.querySelector('#confirm-cancel');
     productDetails.addEventListener("click", detailClickHandler);
     productDetails.addEventListener("close", detailCloseHandler);
+
+    gallery = document.querySelector('#shop-gallery');
+    findShop = document.querySelector('#find-shop');
+    // gallery.addEventListener('click', ShopClickHandler);
+    findProduct = document.querySelector('#find-product');
+
+    createShopAddress();
+    getShopAddressData();
+    createFindProduct();
     getProductData();
 }
 
@@ -30,8 +46,119 @@ function modeSwitch() {
     body.classList.toggle('dark-mode');
 }
 
+function createShopAddress() {
+    const homeIcon = document.createElement('img');
+    homeIcon.src = 'webservice/img/CLE3-ShopNav-Icons-04.png';
+    homeIcon.alt = 'home';
+    findShop.appendChild(homeIcon);
+
+    const searchProductBar = document.createElement('h2');
+    searchProductBar.classList.add('findAddress');
+    searchProductBar.innerText = 'Zoek Winkel + adres';
+    findShop.appendChild(searchProductBar);
+
+    const searchInput = document.createElement('input');
+    searchInput.setAttribute('type', 'text');
+    searchInput.setAttribute('placeholder', 'zoek...');
+    findShop.appendChild(searchInput);
+
+    const micIcon = document.createElement('img');
+    micIcon.src = 'webservice/img/CLE3-ShopNav-Icons-02.png';
+    micIcon.alt = 'microphone';
+    findShop.appendChild(micIcon);
+}
+
+function getShopAddressData() {
+//     fetch api url
+    fetch(shopsApi)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(createShopAddressCards)
+
+        .catch(ajaxErrorHandler);
+}
+
+function createShopAddressCards(data) {
+    console.log(data);
+    for (let shopAddress of data) {
+        const shopAddressCard = document.createElement('div');
+        shopAddressCard.classList.add('shopAddress-card');
+        shopAddressCard.dataset.id = shopAddress.id;
+
+        gallery.appendChild(shopAddressCard);
+        fillShopAddressCard(shopAddress);
+
+    }
+}
+
+function fillShopAddressCard(shopAddress) {
+    const shopAddressCard = document.querySelector(`.shopAddress-card[data-id='${shopAddress.id}']`);
+
+    const title = document.createElement('h2');
+    title.innerText = `${shopAddress.shop}`;
+    shopAddressCard.appendChild(title);
+
+    // add img
+    const shopImage = document.createElement('img');
+    shopImage.src = 'webservice/img/Jumbo.png';
+    shopImage.alt = shopAddress.shop;
+    shopAddressCard.appendChild(shopImage);
+
+    // Add title adress
+    const address = document.createElement('h3');
+    address.innerText = `${shopAddress.address}`;
+    shopAddressCard.appendChild(address);
+
+}
+
+function shopClickHandler(e) {
+    console.log(e.target);
+    const clickedItem = e.target;
+}
+
+function createFindProduct() {
+    const div = document.createElement('div');
+    div.classList.add('top-buttons');
+    findProduct.appendChild(div);
+
+    const backIcon = document.createElement('img');
+    backIcon.src = 'webservice/img/CLE3-ShopNav-Icons-05.png';
+    backIcon.alt = 'back';
+    div.appendChild(backIcon);
+
+    const homeIcon = document.createElement('img');
+    homeIcon.src = 'webservice/img/CLE3-ShopNav-Icons-04.png';
+    homeIcon.alt = 'home';
+    div.appendChild(homeIcon);
+
+    const findProductText = document.createElement('h2');
+    findProductText.classList.add('findProduct');
+    findProductText.innerText = 'Vind Product';
+    findProduct.appendChild(findProductText);
+
+    const searchInput = document.createElement('input');
+    searchInput.setAttribute('type', 'text');
+    searchInput.setAttribute('placeholder', 'zoek...');
+    findProduct.appendChild(searchInput);
+
+    const micIcon = document.createElement('img');
+    micIcon.src = 'webservice/img/CLE3-ShopNav-Icons-02.png';
+    micIcon.alt = 'microphone';
+    micIcon.addEventListener('click', micClickHandler);
+    findProduct.appendChild(micIcon);
+}
+
+function micClickHandler(e) {
+    e.preventDefault();
+    console.log(e.target);
+}
+
 function getProductData() {
-    fetch(apiUrl)
+    fetch(productsApi)
         .then(response => {
             if (!response.ok) {
                 throw new Error(response.statusText);
@@ -43,17 +170,17 @@ function getProductData() {
         .catch(ajaxErrorHandler);
 }
 
-function createProductCards(data) {
-    console.log(data);
+function createProductCards(productsData) {
+    console.log(productsData);
 
-    for (let product of data) {
+    for (let product of productsData) {
         const productCard = document.createElement('div');
         productCard.classList.add('product-card');
         productCard.dataset.name = product.name;
 
         productGallery.appendChild(productCard);
         fillProductCard(product);
-        productList = data;
+        productList = productsData;
     }
 }
 
@@ -91,7 +218,7 @@ function ajaxErrorHandler(error) {
 
 function fetchProductDetails(id) {
     //Fetch de details van de product.
-    fetch(`webservice/index.php?id=${id}`)
+    fetch(`webservice/products.php?id=${id}`)
         .then(response => {
 
             return response.json();
@@ -160,7 +287,7 @@ function createConfirmationScreen(id) {
         })
         .catch(error => {
             console.error("Error fetching details:", error.message);
-            confirmationScreen.innerHTML = `<p class="error-message">${error.message}</p>`;
+            // confirmationScreen.innerHTML = `<p class="error-message">${error.message}</p>`;
         });
 }
 

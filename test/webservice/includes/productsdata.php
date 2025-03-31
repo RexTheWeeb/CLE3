@@ -4,6 +4,7 @@
  * @return array
  */
 
+
 function getProducts(): array
 {
     return [

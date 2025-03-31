@@ -1,7 +1,7 @@
 window.addEventListener('load', init);
 
 // globals
-const apiUrl = 'webservice/index.php';
+const apiUrl = 'webservice/products.php';
 let gallery;
 let findShop;
 

@@ -86,8 +86,6 @@ function fillShopAddressCard(shopAddress) {
 function shopClickHandler(e) {
     console.log(e.target);
     const clickedItem = e.target;
-
-
 }
 
 function errorHandler(error) {

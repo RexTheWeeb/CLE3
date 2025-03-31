@@ -122,7 +122,7 @@ async function updatePointerPosition(location) {
 
     document.getElementById('pointer-arrow');
 
-    let latitudeScreenPos = (51.92 - parseFloat(userLatitude)) / 0.01 * 100 + moveTest;
+    let latitudeScreenPos = (51.96 - parseFloat(userLatitude)) / 0.1 * 100 + moveTest;
     let longitudeScreenPos = ((parseFloat(userLongitude) - 4.474)) / 0.025 * 100 + moveTest;
 
     pointerTop = latitudeScreenPos + '%';

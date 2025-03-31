@@ -114,7 +114,8 @@ function displayProductDetails(product, details) {
     productDetails.style.display = "block";
     productDetails.showModal();
     dialogButton.addEventListener("click", () => {
-        productDetails.close();
+        console.log('gang,')
+        productDetails.remove();
     })
 }
 

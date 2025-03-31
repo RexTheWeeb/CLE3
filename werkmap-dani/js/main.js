@@ -1,8 +1,10 @@
 window.addEventListener('load', init);
 
 const apiUrl = 'webservice/index.php';
+let body;
 let productList = [];
 let productDetails;
+let detailsContent;
 let productGallery;
 let confirmationScreen;
 let dialogButton;
@@ -10,12 +12,16 @@ let confirmButtonCheck;
 let confirmButtonCancel;
 
 function init() {
+    body = document.querySelector('body');
     productGallery = document.querySelector('#products-gallery');
     productDetails = document.querySelector('#details-list');
+    detailsContent = document.querySelector('#detail-container');
     confirmationScreen = document.querySelector('#confirmation-screen');
     dialogButton = document.querySelector('#close-button');
     confirmButtonCheck = document.querySelector('#confirm-check');
     confirmButtonCancel = document.querySelector('#confirm-cancel');
+    productDetails.addEventListener("click", detailClickHandler);
+    productDetails.addEventListener("close", detailCloseHandler);
     getProductData();
 }
 
@@ -79,6 +85,7 @@ function ajaxErrorHandler(error) {
 }
 
 function fetchProductDetails(id) {
+    //Fetch de details van de product.
     fetch(`webservice/index.php?id=${id}`)
         .then(response => {
 
@@ -100,25 +107,38 @@ function fetchProductDetails(id) {
 }
 
 function displayProductDetails(product, details) {
+    //Laat de details zien.
     dialogButton.style.display = "block";
+    //Genereer de HTML content.
     productDetails.innerHTML =
-        `<div class="details-list">
-         <img src="webservice/img/${product.id}.avif" alt="${product.name}" class="details-image">
+        `<img src="webservice/img/${product.id}.avif" alt="${product.name}" class="details-image">
          <h2>${product.name}</h2>
-         <p><strong>Ingredienten:</strong> ${details.ingredients}</p>
-         <p><strong>Gewicht:</strong> ${details.weight}</p>
-         <p><strong>Allergien:</strong> ${details.allergies}</p>
-         </div>
+         <p>Ingredienten: ${details.ingredients}</p>
+         <p>Gewicht: ${details.weight}</p>
+         <p>Allergien: ${details.allergies}</p>
         `
     productDetails.appendChild(dialogButton);
     productDetails.style.display = "block";
     productDetails.showModal();
-    dialogButton.addEventListener("click", () => {
+    body.classList.add("open-dialog");
+}
+
+function detailClickHandler(e) {
+    //Sluit de details venster.
+    if (e.target.nodeName === 'DIALOG' || e.target.nodeName === 'BUTTON') {
         productDetails.close();
-    })
+    }
+}
+
+function detailCloseHandler() {
+    //Verwijder de content in het venster.
+    body.classList.remove('open-dialog');
+    productDetails.innerHTML = "";
+    productDetails.style.display = "none";
 }
 
 function createConfirmationScreen(id) {
+    //Genereer de confirmatie scherm.
     fetch(`webservice/index.php?id=${id}`)
         .then(response => {
 

@@ -1,7 +1,7 @@
 window.addEventListener('load', init);
 
 // globals
-const apiUrl = 'webservice/index.php';
+const apiUrl = 'webservice/products.php';
 let gallery;
 let findShop;
 
@@ -86,8 +86,6 @@ function fillShopAddressCard(shopAddress) {
 function shopClickHandler(e) {
     console.log(e.target);
     const clickedItem = e.target;
-
-
 }
 
 function errorHandler(error) {

@@ -1,4 +1,4 @@
-// noinspection DuplicatedCode,EqualityComparisonWithCoercionJS
+// noinspection DuplicatedCode,EqualityComparisonWithCoercionJS,SpellCheckingInspection
 
 window.addEventListener('load', init);
 let target = null;
@@ -109,6 +109,8 @@ function createMap() {
     mapDiv.style.height = '100%';
     mapDiv.style.width = '100%';
     mapDiv.style.overflow = 'hidden';
+    mapDiv.style.position = 'absolute';
+    mapDiv.style.zIndex = '1';
     navWindow.appendChild(mapDiv)
 
     console.log(`creating the map`)
@@ -116,6 +118,7 @@ function createMap() {
     mapImage.id = 'shop-map';
     mapImage.src = `./images/school-maps-view.png`;
     mapImage.alt = "";
+    mapImage.style.position = 'absolute ';
     mapDiv.appendChild(mapImage);
 
 
@@ -144,24 +147,27 @@ function createExitButton() {
 }
 
 
-function showCurrentLocation(location) {
+function showCurrentLocation() {
     console.log(`showCurrentLocation`);
 
     const pointer = document.createElement("img");
     pointer.id = ('pointer-arrow');
     pointer.src = "./images/map_arrow.png";
     pointer.alt = '';
-    pointer.style.position = 'fixed';
+    pointer.style.position = 'absolute';
     pointer.style.alignSelf = 'anchor-center';
     pointer.style.justifySelf = 'anchor-center';
+    pointer.style.zIndex = '2';
+    pointer.style.height = '50px';
     document.getElementById('navigator-window').appendChild(pointer);
 
     startUpdating();
 }
 
 function startUpdating() {
+    mapAlign = document.getElementById('shop-map')
+    console.log('starts updating');
     gpsLocation = navigator.geolocation.watchPosition(updatePointerPosition, error, gpsOptions);
-    console.log('starts updating')
 }
 
 async function updatePointerPosition(location) {
@@ -178,22 +184,22 @@ async function updatePointerPosition(location) {
         4.483445518046629, 4.485128706174316, 0.001683188127687
         51.91745720241767, 4.484286416720071 middle
 
-        delta pos = max value - phone pos
-        offset image = delta pos - 0.5 delta map
+        delta pos = middle pos - phone pos
+        offset image = delta pos / 0.5 delta map
      */
 
     // let latitudeScreenPos = (51.96 - parseFloat(userLatitude)) / 0.1 * 100 /*+ moveTest*/;
     // let longitudeScreenPos = ((parseFloat(userLongitude) - 4.474)) / 0.025 * 100 /*+ moveTest*/;
 
-    console.log(`window.innerHeight is ${window.innerHeight} window.innerWidth is ${window.innerWidth}`)
 
     let longitudeScreenPos = 0.8023787751636664090267559123524 * 100;
     let latitudeScreenPos = 0.33895159919232774633143562145927 * 100;
 
     console.log(document.getElementById('navigator-window').height);
 
-    mapBottom = latitudeScreenPos + '%';
-    mapLeft = longitudeScreenPos + '%';
+
+    mapBottom = latitudeScreenPos.toFixed(5) + '%';
+    mapLeft = longitudeScreenPos.toFixed(5) + '%';
     mapAlign.style.bottom = mapBottom;
     mapAlign.style.left = mapLeft;
 

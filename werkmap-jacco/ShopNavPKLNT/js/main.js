@@ -111,6 +111,8 @@ function createMap() {
     mapDiv.style.overflow = 'hidden';
     mapDiv.style.position = 'absolute';
     mapDiv.style.zIndex = '1';
+    mapDiv.style.display = 'flex';
+    mapDiv.style.justifyContent = 'center';
     navWindow.appendChild(mapDiv)
 
     console.log(`creating the map`)
@@ -118,7 +120,8 @@ function createMap() {
     mapImage.id = 'shop-map';
     mapImage.src = `./images/school-maps-view.png`;
     mapImage.alt = "";
-    mapImage.style.position = 'absolute ';
+    mapImage.style.position = 'absolute';
+    mapImage.style.height = '100%';
     mapDiv.appendChild(mapImage);
 
 
@@ -179,7 +182,7 @@ async function updatePointerPosition(location) {
     console.log(`gps test slider is currently set to ${moveTest}`);
 
     /*
-        phone pos Long: 4.4848634 & Lat: 51.9173283 delta: long: 0.001417881953371 lat: 0.00025713535765
+        phone pos Long:  4.484693345428029 & Lat: 51.91733333391915 delta: long: 0.001417881953371 lat: 0.00025713535765
         51.91707116464235, 51.91782978433396, 0.00075861969161
         4.483445518046629, 4.485128706174316, 0.001683188127687
         51.91745720241767, 4.484286416720071 middle
@@ -191,9 +194,29 @@ async function updatePointerPosition(location) {
     // let latitudeScreenPos = (51.96 - parseFloat(userLatitude)) / 0.1 * 100 /*+ moveTest*/;
     // let longitudeScreenPos = ((parseFloat(userLongitude) - 4.474)) / 0.025 * 100 /*+ moveTest*/;
 
+    //-0.57698327992
+    //0.12890241767
 
-    let longitudeScreenPos = 0.8023787751636664090267559123524 * 100;
-    let latitudeScreenPos = 0.33895159919232774633143562145927 * 100;
+    const deltaLong =  0.001683188127687;
+    const deltaLat = 0.00075861969161;
+    const phonePosLat = 51.91733333391915;
+    const phonePosLong = 4.484693345428029;
+    const deltaPosLat = phonePosLat - 51.91745720241767;
+    const deltaPosLong = phonePosLong - 4.484286416720071;
+    const finalCalcLat = deltaPosLong / deltaLat;
+    const finalCalcLong = deltaPosLat / deltaLong / 2;
+
+    console.log('phonePosLat ' + phonePosLat);
+    console.log('phonePosLong ' + phonePosLong);
+    console.log('deltaPosLat ' + deltaPosLat);
+    console.log('deltaPosLong ' + deltaPosLong);
+    console.log('finalCalcLat ' + finalCalcLat);
+    console.log('finalCalcLong ' + finalCalcLong);
+
+
+
+    let longitudeScreenPos = finalCalcLong * 100;
+    let latitudeScreenPos = finalCalcLat * 100;
 
     console.log(document.getElementById('navigator-window').height);
 

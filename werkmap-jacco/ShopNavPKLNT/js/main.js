@@ -162,7 +162,7 @@ function showCurrentLocation() {
     pointer.style.justifySelf = 'anchor-center';
     pointer.style.zIndex = '2';
     pointer.style.height = '50px';
-    document.getElementById('navigator-window').appendChild(pointer);
+    pointer.document.getElementById('navigator-window').appendChild(pointer);
 
     startUpdating();
 }
@@ -185,6 +185,9 @@ async function updatePointerPosition(location) {
         phone pos Long:  4.484693345428029 & Lat: 51.91733333391915 delta: long: 0.001417881953371 lat: 0.00025713535765
         51.91707116464235, 51.91782978433396, 0.00075861969161
         4.483445518046629, 4.485128706174316, 0.001683188127687
+
+        51.91750202637835, 4.483722738958786 test
+
         51.91745720241767, 4.484286416720071 middle
 
         delta pos = middle pos - phone pos
@@ -194,17 +197,19 @@ async function updatePointerPosition(location) {
     // let latitudeScreenPos = (51.96 - parseFloat(userLatitude)) / 0.1 * 100 /*+ moveTest*/;
     // let longitudeScreenPos = ((parseFloat(userLongitude) - 4.474)) / 0.025 * 100 /*+ moveTest*/;
 
-    //-0.57698327992
-    //0.12890241767
 
-    const deltaLong =  0.001683188127687;
+    const middleLat = 51.91745720241767;
+    const middleLong = 4.484286416720071;
+    const deltaLong = 0.001683188127687;
     const deltaLat = 0.00075861969161;
     const phonePosLat = 51.91733333391915;
     const phonePosLong = 4.484693345428029;
-    const deltaPosLat = phonePosLat - 51.91745720241767;
-    const deltaPosLong = phonePosLong - 4.484286416720071;
-    const finalCalcLat = deltaPosLong / deltaLat;
-    const finalCalcLong = deltaPosLat / deltaLong / 2;
+    // const phonePosLat = 51.91750202637835;
+    // const phonePosLong = 4.483722738958786;
+    const deltaPosLat = phonePosLat - middleLat;
+    const deltaPosLong = middleLong - phonePosLong;
+    const finalCalcLat = deltaPosLat / deltaLat;
+    const finalCalcLong = deltaPosLong / deltaLong;
 
     console.log('phonePosLat ' + phonePosLat);
     console.log('phonePosLong ' + phonePosLong);
@@ -214,24 +219,22 @@ async function updatePointerPosition(location) {
     console.log('finalCalcLong ' + finalCalcLong);
 
 
-
     let longitudeScreenPos = finalCalcLong * 100;
     let latitudeScreenPos = finalCalcLat * 100;
 
     console.log(document.getElementById('navigator-window').height);
 
 
-    mapBottom = latitudeScreenPos.toFixed(5) + '%';
-    mapLeft = longitudeScreenPos.toFixed(5) + '%';
-    mapAlign.style.bottom = mapBottom;
-    mapAlign.style.left = mapLeft;
-
-    if (document.getElementById('show-map') != undefined) {
-        console.log(`movetest is currently ${moveTest}`)
-        const mapTransform = document.getElementById('shop-map');
-        mapTransform.style.transform = `rotate(${moveTest}deg)`;
-    }
-    console.log(`pointerBottom is ${mapBottom} and pointerLeft is ${mapLeft}`);
+    mapBottom = latitudeScreenPos.toFixed(5);
+    mapLeft = longitudeScreenPos.toFixed(5);
+    mapAlign.style.transform = `translate(${mapLeft}%, ${mapBottom}%)`
+    // mapAlign.style.transform = 'translate(500px, 0px)';
+    /*    if (document.getElementById('show-map') != undefined) {
+            console.log(`movetest is currently ${moveTest}`)
+            const mapTransform = document.getElementById('shop-map');
+            mapTransform.style.transform = `rotate(${moveTest}deg)`;
+        }*/
+    console.log(`mapBottom is ${mapBottom} and mapTop is ${mapLeft}`);
 }
 
 function error(err) {

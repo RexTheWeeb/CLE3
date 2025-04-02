@@ -1,0 +1,61 @@
+body {
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: whitesmoke;
+    overflow: hidden;
+    margin: 0;
+}
+
+main {
+    display: flex;
+    flex-flow: column wrap;
+    align-content: center;
+    justify-content: center;
+    height: 95vh;
+    @media (orientation: portrait) {
+        height: 100vh;
+        width: 100vw;
+    }
+}
+
+nav {
+    height: 10vh;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+#search-balk {
+    width: 80vw;
+    font-size: 55px;
+    border-radius: 35px;
+    height: 8vw;
+}
+
+#map-window {
+    display: flex;
+    flex-flow: column wrap;
+    align-content: center;
+    justify-content: center;
+    height: 100vh;
+    @media (orientation: portrait) {
+        height: 100vh;
+        width: 100vw;
+    }
+}
+
+
+#pointer-arrow {
+    z-index: 1;
+    position: absolute;
+    height: 50px;
+    width: 50px;
+    background-color: transparent;
+}
+
+img {
+    height: 100%;
+}
+

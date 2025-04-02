@@ -4,7 +4,6 @@ body {
     height: 100vh;
     width: 100vw;
     overflow: hidden;
-    margin: 0;
 }
 
 main {
@@ -12,19 +11,11 @@ main {
     flex-flow: column wrap;
     align-content: center;
     justify-content: center;
-    height: 100vh;
+    height: 95vh;
     @media (orientation: portrait) {
         height: 100vh;
         width: 100vw;
     }
-}
-
-
-#pointer-arrow {
-    z-index: 1;
-    position: absolute;
-    height: 50px;
-    width: 50px;
 }
 
 #start-button, #exit-button {
@@ -54,6 +45,3 @@ main {
     z-index: 2;
 }
 
-img {
-    height: 100%;
-}

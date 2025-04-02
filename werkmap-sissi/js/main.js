@@ -1,19 +1,24 @@
 // Start JS codes - Sissi
 window.addEventListener('load', init);
 
+// Global variables
 const apiUrl = 'webservice/index.php';
 let productGallery;
 let findProduct;
 
+// This function runs when you search the url
 function init() {
+    // Selects HTML elements
     productGallery = document.querySelector('#products-gallery');
     productGallery.addEventListener('click', productClickHandler);
     findProduct = document.querySelector('#find-product');
 
+    // Runs the called functions
     createFindProduct();
     getProductData();
 }
 
+// This function is to switch between dark and light mode
 function modeSwitch() {
     let body = document.body;
     body.classList.toggle('dark-mode');
@@ -21,6 +26,7 @@ function modeSwitch() {
 
 // Find product page
 function createFindProduct() {
+    // Div to put the back and home icon together
     const div = document.createElement('div');
     div.classList.add('top-buttons');
     findProduct.appendChild(div);
@@ -52,6 +58,7 @@ function createFindProduct() {
     findProduct.appendChild(micIcon);
 }
 
+// Work in progress
 function micClickHandler(e) {
     e.preventDefault();
     console.log(e.target);
@@ -60,7 +67,7 @@ function micClickHandler(e) {
 // Scan products page
 
 
-// Show products page
+// Show products page, fetches api
 function getProductData() {
     fetch(apiUrl)
         .then(response => {
@@ -74,9 +81,11 @@ function getProductData() {
         .catch(ajaxErrorHandler);
 }
 
+// Creates individual cards for each product that is in the api
 function createProductCards(data) {
     console.log(data);
 
+    // loops through whole api array
     for (let product of data) {
         const productCard = document.createElement('div');
         productCard.classList.add('product-card');
@@ -87,7 +96,9 @@ function createProductCards(data) {
     }
 }
 
+// Function to fill the individual cards with the information of each product
 function fillProductCard(product) {
+    // Looks for the right card to fill with the right information, through data-name
     const productCard = document.querySelector(`.product-card[data-name='${product.name}']`);
 
     const productName = document.createElement('h2');
@@ -106,11 +117,13 @@ function fillProductCard(product) {
     productCard.appendChild(productPrice);
 }
 
+// Work in progress
 function productClickHandler(e) {
     e.preventDefault();
     console.log(e.target);
 }
 
+// Error handler if something went wrong or is missing
 function ajaxErrorHandler(error) {
     console.log(error);
     const message = document.createElement('div');

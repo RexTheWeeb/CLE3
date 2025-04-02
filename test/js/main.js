@@ -85,8 +85,9 @@ function getShopAddressData() {
 function createShopAddressCards(data) {
     console.log(data);
     for (let shopAddress of data) {
-        const shopAddressCard = document.createElement('div');
+        const shopAddressCard = document.createElement('a');
         shopAddressCard.classList.add('shopAddress-card');
+        shopAddressCard.href = '#find-product';
         shopAddressCard.dataset.id = shopAddress.id;
 
         gallery.appendChild(shopAddressCard);
@@ -113,11 +114,7 @@ function fillShopAddressCard(shopAddress) {
     address.innerText = `${shopAddress.address}`;
     shopAddressCard.appendChild(address);
 
-}
 
-function shopClickHandler(e) {
-    console.log(e.target);
-    const clickedItem = e.target;
 }
 
 function createFindProduct() {

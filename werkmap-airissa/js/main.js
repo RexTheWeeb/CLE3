@@ -8,7 +8,7 @@ let findShop;
 function init() {
     gallery = document.querySelector('#shop-gallery');
     findShop = document.querySelector('#find-shop');
-    // gallery.addEventListener('click', ShopClickHandler);
+    gallery.addEventListener('click', ShopClickHandler);
     createShopAddress();
     getShopAddressData();
 

@@ -143,6 +143,11 @@ header button {
     background-color: var(--products-white);
 }
 
+#shop-gallery a {
+    text-decoration: none;
+    color: black;
+}
+
 #find-shop {
     display: flex;
     flex-direction: column;

@@ -122,15 +122,24 @@ function createFindProduct() {
     div.classList.add('top-buttons');
     findProduct.appendChild(div);
 
+    const aBack = document.createElement('a');
+    aBack.href = '#shop-gallery';
+    div.appendChild(aBack);
+
+    const aHome = document.createElement('a');
+    aHome.href = '#find-shop';
+    div.appendChild(aHome);
+
     const backIcon = document.createElement('img');
     backIcon.src = 'webservice/img/CLE3-ShopNav-Icons-05.png';
     backIcon.alt = 'back';
-    div.appendChild(backIcon);
+    backIcon.href = '#find-shop';
+    aBack.appendChild(backIcon);
 
     const homeIcon = document.createElement('img');
     homeIcon.src = 'webservice/img/CLE3-ShopNav-Icons-04.png';
     homeIcon.alt = 'home';
-    div.appendChild(homeIcon);
+    aHome.appendChild(homeIcon);
 
     const findProductText = document.createElement('h2');
     findProductText.classList.add('findProduct');

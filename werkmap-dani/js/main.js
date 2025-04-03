@@ -1,6 +1,7 @@
 window.addEventListener('load', init);
 
-const apiUrl = 'webservice/products.php';
+//Lijst met variebelen.
+const apiUrl = 'webservice/index.php';
 let body;
 let productList = [];
 let productDetails;
@@ -12,6 +13,7 @@ let confirmButtonCheck;
 let confirmButtonCancel;
 
 function init() {
+    //Selecteer onderdelen uit de HTML.
     body = document.querySelector('body');
     productGallery = document.querySelector('#products-gallery');
     productDetails = document.querySelector('#details-list');
@@ -26,6 +28,7 @@ function init() {
 }
 
 function getProductData() {
+    //Fetch de product data.
     fetch(apiUrl)
         .then(response => {
             if (!response.ok) {
@@ -33,11 +36,13 @@ function getProductData() {
             }
             return response.json();
         })
+        //Maak de product kaarten aan als alles klopt anders geef een error terug.
         .then(createProductCards)
 
         .catch(ajaxErrorHandler);
 }
 
+//Maak de producten aan gebaseerd op data uit de webservice.
 function createProductCards(data) {
     console.log(data);
 
@@ -52,30 +57,53 @@ function createProductCards(data) {
     }
 }
 
+//Vul de div elementen aangemaakt bij de vorige functie met gegevens uit de webservice.
 function fillProductCard(product) {
     const productCard = document.querySelector(`.product-card[data-name='${product.name}']`);
 
+    //Genereer de naam.
     const productName = document.createElement('h2');
     productName.classList.add('name');
     productName.innerText = `${product.name}`;
     productCard.appendChild(productName);
 
+    //Genereer de afbeelding.
     const productImg = document.createElement('img');
     productImg.src = `webservice/img/${product.id}.avif`;
     productImg.alt = product.name;
     productCard.appendChild(productImg);
-    productImg.addEventListener("click", function () {
-        createConfirmationScreen(product.id);
-        fetchProductDetails(product.id);
-        console.log(product.id)
-    });
+    //Voeg de klik element toe om de details later op te roepen.
 
+    //Genereer de prijs.
     const productPrice = document.createElement('h3');
     productPrice.classList.add('price');
     productPrice.innerText = `€${product.price}`;
     productCard.appendChild(productPrice);
+
+    //Genereer de details knop.
+    const detailButton = document.createElement("BUTTON");
+    const buttonContent = document.createTextNode('Details');
+    detailButton.classList.add('detail-button');
+    detailButton.appendChild(buttonContent);
+    productCard.appendChild(detailButton);
+    detailButton.addEventListener("click", function () {
+        fetchProductDetails(product.id);
+        console.log(product.id)
+    });
+
+    //Genereer de confirmatie knop.
+    const searchButton = document.createElement("BUTTON");
+    const searchButtonText = document.createTextNode('Zoek naar product');
+    searchButton.classList.add('search-button');
+    searchButton.appendChild(searchButtonText);
+    productCard.appendChild(searchButton);
+    searchButton.addEventListener("click", function () {
+        createConfirmationScreen(product.id);
+    });
+
 }
 
+//Geef een error terug.
 function ajaxErrorHandler(error) {
     console.log(error);
     const message = document.createElement('div');
@@ -84,6 +112,7 @@ function ajaxErrorHandler(error) {
     productGallery.before(message);
 }
 
+//Haal de details van het product uit de webservice.
 function fetchProductDetails(id) {
     //Fetch de details van de product.
     fetch(`webservice/index.php?id=${id}`)
@@ -93,6 +122,7 @@ function fetchProductDetails(id) {
 
         })
         .then(details => {
+            //Check of het ID klopt met de details.
             const productInfo = productList.find(product => product.id === id);
             if (!productInfo) {
                 console.error("Product niet gevonden!");
@@ -106,19 +136,22 @@ function fetchProductDetails(id) {
         });
 }
 
+
+//Laat de product details zien.
 function displayProductDetails(product, details) {
     //Laat de details zien.
     dialogButton.style.display = "block";
     //Genereer de HTML content.
     productDetails.innerHTML =
-        `<img src="webservice/img/${product.id}.avif" alt="${product.name}" class="details-image">
+        ` 
+<img src="webservice/img/${product.id}.avif" alt="${product.name}" class="details-image">
          <h2>${product.name}</h2>
          <p>Ingredienten: ${details.ingredients}</p>
          <p>Gewicht: ${details.weight}</p>
          <p>Allergien: ${details.allergies}</p>
         `
     productDetails.appendChild(dialogButton);
-    productDetails.style.display = "block";
+    productDetails.style.display = "flex";
     productDetails.showModal();
     body.classList.add("open-dialog");
 }
@@ -159,6 +192,7 @@ function createConfirmationScreen(id) {
         });
 }
 
+//Maak het product confirmatie scherm.
 function productConfirmationScreen(product) {
     confirmButtonCheck.style.display = "block";
     confirmButtonCancel.style.display = "block";

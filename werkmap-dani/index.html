@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -13,18 +13,30 @@
 
 <body>
 <header>
+    <img src="webservice/img/CLE3-ShopNav-Logo.png">
     <h1>SHOPNAV</h1>
+    <button onclick="modeSwitch()">Toggle dark mode</button>
 </header>
 <main>
+    <section id="find-shop"></section>
+
+    <section id="shop-gallery"></section>
+
+    <section id="find-product"></section>
+
     <section id="products-gallery"></section>
+
+    <dialog id="details-list" hidden>
+        <button type="button" id="close-button" hidden>Close</button>
+    </dialog>
     <div id="confirmation-screen"></div>
     <button type="button" id="confirm-check" hidden>✔</button>
     <button type="button" id="confirm-cancel" hidden>❌</button>
+
 </main>
-<dialog id="details-list">
-    <div class="detail-container">
-        <button type="submit" id="close-button" hidden>Close</button>
-    </div>
-</dialog>
+<footer>
+    <h3>© Team 2</h3>
+    <p>Airissa, Dani, Jacco en Sissi</p>
+</footer>
 </body>
 </html>

@@ -219,6 +219,13 @@ header button {
     border-color: var(--products-white);
 }
 
+/*scanner*/
+canvas.drawing, canvas.drawingBuffer {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
 /* product display page css */
 #products-gallery {
     display: flex;

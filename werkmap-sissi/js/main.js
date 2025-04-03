@@ -6,9 +6,7 @@ const apiUrl = 'webservice/index.php';
 let productGallery;
 let findProduct;
 
-
 const LANG = "nl-NL"; // Dutch (Netherlands) language
-
 
 // This function runs when you search the url
 function init() {
@@ -166,12 +164,10 @@ function createFindProduct() {
             }
         });
 
-
         Quagga.onDetected(function (result) {
             console.log("Barcode detected and processed : [" + result.codeResult.code + "]", result);
         });
     }
-
 
     // Start/stop scanner
     document.getElementById("btn").addEventListener("click", function () {
@@ -182,8 +178,6 @@ function createFindProduct() {
         }
     }, false);
 }
-
-// Scan products page Airissa
 
 // Show products page, fetches api
 function getProductData() {

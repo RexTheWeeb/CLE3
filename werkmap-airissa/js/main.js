@@ -8,7 +8,7 @@ let findShop;
 function init() {
     gallery = document.querySelector('#shop-gallery');
     findShop = document.querySelector('#find-shop');
-    gallery.addEventListener('click', ShopClickHandler);
+    // gallery.addEventListener('click', ShopClickHandler);
     createShopAddress();
     getShopAddressData();
 
@@ -81,11 +81,6 @@ function fillShopAddressCard(shopAddress) {
     address.innerText = `${shopAddress.address}`;
     shopAddressCard.appendChild(address);
 
-}
-
-function shopClickHandler(e) {
-    console.log(e.target);
-    const clickedItem = e.target;
 }
 
 function errorHandler(error) {

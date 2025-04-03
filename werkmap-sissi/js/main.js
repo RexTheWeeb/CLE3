@@ -56,27 +56,42 @@ function createFindProduct() {
     const micIcon = document.createElement('img');
     micIcon.src = 'webservice/img/CLE3-ShopNav-Icons-02.png';
     micIcon.alt = 'microphone';
-    micIcon.addEventListener('click', () => recognition.start());
+    micIcon.addEventListener("click", () => recognition.start()); // (SISSI) button to start speech to text
     findProduct.appendChild(micIcon);
 
-    const clearButton = document.createElement('button');
-    clearButton.innerText = 'Reset';
-    clearButton.addEventListener('click', () => {
-        searchInput.textContent = "";
-    });
-    findProduct.appendChild(clearButton);
+    // (SISSI) start; Speech to Text coding
+    const startButton = document.getElementById("startButton");
+    const outputDiv = document.getElementById("output");
+    const clearButton = document.getElementById("clear");
 
+    // Constants for the language and the default language
+    const LANG = "nl-NL"; // Dutch (Netherlands)
+    const DEFAULT_LANG = "en-US"; // English (United States)
+
+    // Event listeners for the clear button
+    clearButton.addEventListener("click", () => {
+        outputDiv.textContent = "";
+    });
+
+    // Create a new SpeechRecognition object
     const recognition = new (window.SpeechRecognition ||
         window.webkitSpeechRecognition ||
         window.mozSpeechRecognition ||
         window.msSpeechRecognition)();
 
+    // Set the language of the recognition
     recognition.lang = LANG;
 
+    // Event listeners for the recognition
     recognition.onresult = (event) => {
         const transcript = event.results[0][0].transcript;
-        searchInput.textContent += ` ${transcript}`;
+        outputDiv.textContent += ` ${transcript}`;
     };
+
+    // Event listeners for the start and end of the recognition
+    recognition.onstart = () => startButton.textContent = "Luisteren...";
+    recognition.onend = () => startButton.textContent = "Start";
+    // (SISSI) end; Speech to Text coding
 
     // Airissa QuaggaJS Barscanner
     const camIcon = document.createElement('img');

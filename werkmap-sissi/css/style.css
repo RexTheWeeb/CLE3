@@ -124,6 +124,15 @@ header img {
     border-color: var(--products-white);
 }
 
+/*Airissa  scanner*/
+
+/* In order to place the tracking correctly */
+canvas.drawing, canvas.drawingBuffer {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
 /* product display page css */
 #products-gallery {
     display: flex;

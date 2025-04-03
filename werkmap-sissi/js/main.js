@@ -6,6 +6,8 @@ const apiUrl = 'webservice/index.php';
 let productGallery;
 let findProduct;
 
+const LANG = "nl-NL"; // Dutch (Netherlands) language
+
 // This function runs when you search the url
 function init() {
     // Selects HTML elements
@@ -54,14 +56,27 @@ function createFindProduct() {
     const micIcon = document.createElement('img');
     micIcon.src = 'webservice/img/CLE3-ShopNav-Icons-02.png';
     micIcon.alt = 'microphone';
-    micIcon.addEventListener('click', micClickHandler);
+    micIcon.addEventListener('click', () => recognition.start());
     findProduct.appendChild(micIcon);
-}
 
-// Work in progress
-function micClickHandler(e) {
-    e.preventDefault();
-    console.log(e.target);
+    const clearButton = document.createElement('button');
+    clearButton.innerText = 'Reset';
+    clearButton.addEventListener('click', () => {
+        searchInput.textContent = "";
+    });
+    findProduct.appendChild(clearButton);
+
+    const recognition = new (window.SpeechRecognition ||
+        window.webkitSpeechRecognition ||
+        window.mozSpeechRecognition ||
+        window.msSpeechRecognition)();
+
+    recognition.lang = LANG;
+
+    recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        searchInput.textContent += ` ${transcript}`;
+    };
 }
 
 // Scan products page

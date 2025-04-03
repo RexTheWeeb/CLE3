@@ -1,7 +1,7 @@
 window.addEventListener('load', init);
 
-const productsApi = 'webservice/products.php';
-const shopsApi = 'webservice/shops.php';
+const productsApi = '../webservice/products.php';
+const shopsApi = '../webservice/shops.php';
 
 let gallery;
 let findShop;
@@ -48,7 +48,7 @@ function modeSwitch() {
 
 function createShopAddress() {
     const homeIcon = document.createElement('img');
-    homeIcon.src = 'webservice/img/CLE3-ShopNav-Icons-04.png';
+    homeIcon.src = '../webservice/img/CLE3-ShopNav-Icons-04.png';
     homeIcon.alt = 'home';
     findShop.appendChild(homeIcon);
 
@@ -63,7 +63,7 @@ function createShopAddress() {
     findShop.appendChild(searchInput);
 
     const micIcon = document.createElement('img');
-    micIcon.src = 'webservice/img/CLE3-ShopNav-Icons-02.png';
+    micIcon.src = '../webservice/img/CLE3-ShopNav-Icons-02.png';
     micIcon.alt = 'microphone';
     findShop.appendChild(micIcon);
 }
@@ -89,7 +89,6 @@ function createShopAddressCards(data) {
         shopAddressCard.classList.add('shopAddress-card');
         shopAddressCard.href = '#find-product';
         shopAddressCard.dataset.id = shopAddress.id;
-
         gallery.appendChild(shopAddressCard);
         fillShopAddressCard(shopAddress);
 
@@ -105,7 +104,7 @@ function fillShopAddressCard(shopAddress) {
 
     // add img
     const shopImage = document.createElement('img');
-    shopImage.src = 'webservice/img/Jumbo.png';
+    shopImage.src = '../webservice/img/Jumbo.png';
     shopImage.alt = shopAddress.shop;
     shopAddressCard.appendChild(shopImage);
 
@@ -114,32 +113,27 @@ function fillShopAddressCard(shopAddress) {
     address.innerText = `${shopAddress.address}`;
     shopAddressCard.appendChild(address);
 
-
 }
+
+/*function shopClickHandler(e) {
+    console.log(e.target);
+    const clickedItem = e.target;
+}*/
 
 function createFindProduct() {
     const div = document.createElement('div');
     div.classList.add('top-buttons');
     findProduct.appendChild(div);
 
-    const aBack = document.createElement('a');
-    aBack.href = '#shop-gallery';
-    div.appendChild(aBack);
-
-    const aHome = document.createElement('a');
-    aHome.href = '#find-shop';
-    div.appendChild(aHome);
-
     const backIcon = document.createElement('img');
-    backIcon.src = 'webservice/img/CLE3-ShopNav-Icons-05.png';
+    backIcon.src = '../webservice/img/CLE3-ShopNav-Icons-05.png';
     backIcon.alt = 'back';
-    backIcon.href = '#find-shop';
-    aBack.appendChild(backIcon);
+    div.appendChild(backIcon);
 
     const homeIcon = document.createElement('img');
-    homeIcon.src = 'webservice/img/CLE3-ShopNav-Icons-04.png';
+    homeIcon.src = '../webservice/img/CLE3-ShopNav-Icons-04.png';
     homeIcon.alt = 'home';
-    aHome.appendChild(homeIcon);
+    div.appendChild(homeIcon);
 
     const findProductText = document.createElement('h2');
     findProductText.classList.add('findProduct');
@@ -152,112 +146,10 @@ function createFindProduct() {
     findProduct.appendChild(searchInput);
 
     const micIcon = document.createElement('img');
-    micIcon.src = 'webservice/img/CLE3-ShopNav-Icons-02.png';
+    micIcon.src = '../webservice/img/CLE3-ShopNav-Icons-02.png';
     micIcon.alt = 'microphone';
     micIcon.addEventListener('click', micClickHandler);
     findProduct.appendChild(micIcon);
-
-    // Airissa QuaggaJS Barscanner
-    const camIcon = document.createElement('img');
-    camIcon.src = 'webservice/img/CLE3-ShopNav-Icons-03.png';
-    camIcon.alt = 'camera';
-    camIcon.id = 'btn';
-    findProduct.appendChild(camIcon);
-
-    var _scannerIsRunning = false;
-
-    function startScanner() {
-        Quagga.init({
-            inputStream: {
-                name: "Live",
-                type: "LiveStream",
-                target: document.querySelector('#scanner-container'),
-                constraints: {
-                    width: 480,
-                    height: 320,
-                    facingMode: "environment"
-                },
-            },
-            decoder: {
-                readers: [
-                    "code_128_reader",
-                    "ean_reader",
-                    "ean_8_reader",
-                    "code_39_reader",
-                    "code_39_vin_reader",
-                    "codabar_reader",
-                    "upc_reader",
-                    "upc_e_reader",
-                    "i2of5_reader"
-                ],
-                debug: {
-                    showCanvas: true,
-                    showPatches: true,
-                    showFoundPatches: true,
-                    showSkeleton: true,
-                    showLabels: true,
-                    showPatchLabels: true,
-                    showRemainingPatchLabels: true,
-                    boxFromPatches: {
-                        showTransformed: true,
-                        showTransformedBox: true,
-                        showBB: true
-                    }
-                }
-            },
-
-        }, function (err) {
-            if (err) {
-                console.log(err);
-                return
-            }
-
-            console.log("Initialization finished. Ready to start");
-            Quagga.start();
-
-            // Set flag to is running
-            _scannerIsRunning = true;
-        });
-
-        Quagga.onProcessed(function (result) {
-            var drawingCtx = Quagga.canvas.ctx.overlay,
-                drawingCanvas = Quagga.canvas.dom.overlay;
-
-            if (result) {
-                if (result.boxes) {
-                    drawingCtx.clearRect(0, 0, parseInt(drawingCanvas.getAttribute("width")), parseInt(drawingCanvas.getAttribute("height")));
-                    result.boxes.filter(function (box) {
-                        return box !== result.box;
-                    }).forEach(function (box) {
-                        Quagga.ImageDebug.drawPath(box, {x: 0, y: 1}, drawingCtx, {color: "green", lineWidth: 2});
-                    });
-                }
-
-                if (result.box) {
-                    Quagga.ImageDebug.drawPath(result.box, {x: 0, y: 1}, drawingCtx, {color: "#00F", lineWidth: 2});
-                }
-
-                if (result.codeResult && result.codeResult.code) {
-                    Quagga.ImageDebug.drawPath(result.line, {x: 'x', y: 'y'}, drawingCtx, {color: 'red', lineWidth: 3});
-                }
-            }
-        });
-
-
-        Quagga.onDetected(function (result) {
-            console.log("Barcode detected and processed : [" + result.codeResult.code + "]", result);
-        });
-    }
-
-
-    // Start/stop scanner
-    document.getElementById("btn").addEventListener("click", function () {
-        if (_scannerIsRunning) {
-            Quagga.stop();
-        } else {
-            startScanner();
-        }
-    }, false);
 }
 
 function micClickHandler(e) {
@@ -301,7 +193,7 @@ function fillProductCard(product) {
     productCard.appendChild(productName);
 
     const productImg = document.createElement('img');
-    productImg.src = `webservice/img/${product.id}.avif`;
+    productImg.src = `../webservice/img/${product.id}.avif`;
     productImg.alt = product.name;
     productCard.appendChild(productImg);
     productImg.addEventListener("click", function () {
@@ -326,7 +218,7 @@ function ajaxErrorHandler(error) {
 
 function fetchProductDetails(id) {
     //Fetch de details van de product.
-    fetch(`webservice/products.php?id=${id}`)
+    fetch(`../webservice/products.php?id=${id}`)
         .then(response => {
 
             return response.json();
@@ -351,7 +243,7 @@ function displayProductDetails(product, details) {
     dialogButton.style.display = "block";
     //Genereer de HTML content.
     productDetails.innerHTML =
-        `<img src="webservice/img/${product.id}.avif" alt="${product.name}" class="details-image">
+        `<img src="../webservice/img/${product.id}.avif" alt="${product.name}" class="details-image">
          <h2>${product.name}</h2>
          <p>Ingredienten: ${details.ingredients}</p>
          <p>Gewicht: ${details.weight}</p>
@@ -379,7 +271,7 @@ function detailCloseHandler() {
 
 function createConfirmationScreen(id) {
     //Genereer de confirmatie scherm.
-    fetch(`webservice/index.php?id=${id}`)
+    fetch(`../webservice/index.php?id=${id}`)
         .then(response => {
 
             return response.json();
@@ -405,7 +297,7 @@ function productConfirmationScreen(product) {
     confirmationScreen.innerHTML =
         `
         <div class="confirmation-box">
-         <img src="webservice/img/${product.id}.avif" alt="${product.name}" class="details-image">
+         <img src="../webservice/img/${product.id}.avif" alt="${product.name}" class="details-image">
          <h2>${product.name}</h2>
           `
     confirmationScreen.appendChild(confirmButtonCheck);

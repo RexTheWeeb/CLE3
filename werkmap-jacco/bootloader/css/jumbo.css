@@ -143,9 +143,9 @@ header button {
     background-color: var(--products-white);
 }
 
-#shop-gallery a {
-    text-decoration: none;
+.shopAddress-card h2, h3, a {
     color: black;
+    text-decoration: none;
 }
 
 #find-shop {
@@ -173,6 +173,7 @@ header button {
 
 }
 
+
 .shopAddress-card {
     background-color: var(--products-lightergrey);
     display: flex;
@@ -181,13 +182,18 @@ header button {
     gap: 10px;
     padding: 0.5vw;
     align-items: center;
-
+    color: black;
     max-width: 35vw;
 }
 
 .shopAddress-card img {
     width: 25vw;
 }
+
+.shopAddress-card text {
+    color: black;
+}
+
 
 #play-form {
     display: flex;
@@ -217,13 +223,6 @@ header button {
 
     background-color: var(--products-white);
     border-color: var(--products-white);
-}
-
-/*scanner*/
-canvas.drawing, canvas.drawingBuffer {
-    position: absolute;
-    left: 0;
-    top: 0;
 }
 
 /* product display page css */

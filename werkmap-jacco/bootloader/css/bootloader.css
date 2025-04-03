@@ -1,0 +1,149 @@
+/* start css - Sissi */
+
+/* de kleuren van de styleguide */
+
+body {
+    font-size: 14px;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+    box-sizing: border-box;
+    background-color: whitesmoke;
+    display: flex;
+    flex-flow: wrap row;
+    justify-content: center;
+    align-content: center;
+}
+
+
+:root {
+    --products-white: #ffffff;
+    --products-lightergrey: #d1d3d4;
+    --products-lightgrey: #a7a9ac;
+    --products-grey: #808285;
+    --products-darkgrey: #58595b;
+    --products-darkergrey: #414042;
+    --products-red: #a71e23;
+    --products-green: #277a1b;
+}
+
+* {
+    margin: 0;
+    background-color: var(--products-lightergrey);
+}
+
+h1 {
+    font-size: 3rem;
+    font-family: "Segoe UI Black";
+}
+
+h2 {
+    font-size: 2rem;
+    font-family: "Segoe UI";
+}
+
+h3 {
+    font-size: 1.5rem;
+    font-family: "Segoe UI Semibold";
+}
+
+#products-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 2vw;
+
+    background-color: var(--products-white);
+}
+
+.product-card {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0.5vw;
+
+    max-width: 35vw;
+}
+
+img {
+    width: 25vw;
+}
+
+#page-loader {
+    height: 90%;
+    width: 100%;
+}
+
+#search {
+    height: 10vh;
+    width: 80vw;
+    left: 10vw;
+    position: absolute;
+    z-index: 2;
+    top: 3vh;
+    display: flex;
+    flex-flow: wrap;
+    flex-direction: column;
+    align-content: space-evenly;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 15px;
+    border-radius: 100px;
+}
+
+#search img {
+    max-height: 80%;
+    width: auto;
+}
+
+#search-balk {
+    width: 80%;
+    font-size: 75px;
+    height: 90%;
+    border: 0;
+}
+
+main {
+    display: flex;
+    flex-flow: column wrap;
+    align-content: center;
+    justify-content: center;
+    height: 90%;
+    width: 100%;
+}
+
+iframe {
+    height: 100%;
+    width: 100%;
+}
+
+footer {
+    height: 10vh;
+    width: 100vw;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+
+.nav-button {
+    min-height: 40px;
+    padding: 5px;
+    width: 100%;
+    height: 100%;
+    font-size: 55px;
+    border-radius: 35px;
+    color: ghostwhite;
+    background-color: #0a53be;
+
+}
+
+.nav-buttons-div {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    place-content: center;
+}

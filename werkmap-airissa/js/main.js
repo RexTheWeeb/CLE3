@@ -11,7 +11,6 @@ function init() {
     // gallery.addEventListener('click', ShopClickHandler);
     createShopAddress();
     getShopAddressData();
-
 }
 
 function createShopAddress() {
@@ -33,7 +32,43 @@ function createShopAddress() {
     const micIcon = document.createElement('img');
     micIcon.src = 'img/microphone-icon.png';
     micIcon.alt = 'microphone';
+    micIcon.addEventListener("click", () => recognition.start()); // (SISSI) button to start speech to text
     findShop.appendChild(micIcon);
+
+    // (SISSI) start; Speech to Text coding
+    const startButton = document.getElementById("startButton");
+    const outputDiv = document.getElementById("output");
+    const clearButton = document.getElementById("clear");
+
+    // Constants for the language and the default language
+    const LANG = "nl-NL"; // Dutch (Netherlands)
+    const DEFAULT_LANG = "en-US"; // English (United States)
+
+    // Event listeners for the clear button
+    clearButton.addEventListener("click", () => {
+        outputDiv.textContent = "";
+    });
+
+    // Create a new SpeechRecognition object
+    const recognition = new (window.SpeechRecognition ||
+        window.webkitSpeechRecognition ||
+        window.mozSpeechRecognition ||
+        window.msSpeechRecognition)();
+
+    // Set the language of the recognition
+    recognition.lang = LANG;
+
+    // Event listeners for the recognition
+    recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        outputDiv.textContent += ` ${transcript}`;
+    };
+
+    // Event listeners for the start and end of the recognition
+    recognition.onstart = () => startButton.textContent = "Luisteren...";
+    recognition.onend = () => startButton.textContent = "Start";
+
+    // (SISSI) end; Speech to Text coding
 }
 
 function getShopAddressData() {

@@ -290,6 +290,44 @@ dialog#details-list {
     align-items: center;
 }
 
+#confirmation-screen {
+    justify-self: center;
+    align-self: center;
+
+    max-width: 75vw;
+    max-height: 80vh;
+
+    font-size: 1.5rem;
+}
+
+#confirmation-screen img {
+    width: 50vw;
+}
+
+#confirmation-screen button {
+    padding: 3vh 5vw;
+    font-size: 1.5rem;
+    background-color: var(--products-lightgrey);
+}
+
+dialog#confirmation-screen {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#button-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.product-card button {
+    padding: 3vh 5vw;
+    font-size: 1.5rem;
+    background-color: var(--products-lightgrey);
+}
+
 /*.buttons {*/
 /*    display: flex;*/
 /*    justify-content: center;*/

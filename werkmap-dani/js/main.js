@@ -5,7 +5,7 @@ const apiUrl = 'webservice/index.php';
 let body;
 let productList = [];
 let productDetails;
-let detailsContent;
+let buttonContainer;
 let productGallery;
 let confirmationScreen;
 let dialogButton;
@@ -17,13 +17,15 @@ function init() {
     body = document.querySelector('body');
     productGallery = document.querySelector('#products-gallery');
     productDetails = document.querySelector('#details-list');
-    detailsContent = document.querySelector('#detail-container');
+    buttonContainer = document.querySelector('#button-container');
     confirmationScreen = document.querySelector('#confirmation-screen');
     dialogButton = document.querySelector('#close-button');
     confirmButtonCheck = document.querySelector('#confirm-check');
     confirmButtonCancel = document.querySelector('#confirm-cancel');
     productDetails.addEventListener("click", detailClickHandler);
     productDetails.addEventListener("close", detailCloseHandler);
+    confirmationScreen.addEventListener("click", confirmationClickHandler);
+    confirmationScreen.addEventListener("close", confirmationCloseHandler);
     getProductData();
 }
 
@@ -158,7 +160,7 @@ function displayProductDetails(product, details) {
 
 function detailClickHandler(e) {
     //Sluit de details venster.
-    if (e.target.nodeName === 'DIALOG' || e.target.nodeName === 'BUTTON') {
+    if (e.target.nodeName === 'BUTTON') {
         productDetails.close();
     }
 }
@@ -202,12 +204,27 @@ function productConfirmationScreen(product) {
          <img src="webservice/img/${product.id}.avif" alt="${product.name}" class="details-image">
          <h2>${product.name}</h2>
           `
-    confirmationScreen.appendChild(confirmButtonCheck);
-    confirmationScreen.appendChild(confirmButtonCancel);
+    buttonContainer.appendChild(confirmButtonCheck);
+    buttonContainer.appendChild(confirmButtonCancel);
+    confirmationScreen.appendChild(buttonContainer);
+    confirmationScreen.style.display = "flex";
     confirmButtonCheck.addEventListener("click", () => {
 
-    })
-    confirmButtonCancel.addEventListener("click", () => {
+    });
+    confirmationScreen.showModal();
+    body.classList.add("open-dialog");
+}
 
-    })
+function confirmationClickHandler(e) {
+    //Sluit de details venster.
+    if (e.target === confirmButtonCancel) {
+        confirmationScreen.close();
+    }
+}
+
+function confirmationCloseHandler() {
+    //Verwijder de content in het venster.
+    body.classList.remove('open-dialog');
+    confirmationScreen.innerHTML = "";
+    confirmationScreen.style.display = "none";
 }

@@ -5,6 +5,7 @@ const apiUrl = 'webservice/index.php';
 let gallery;
 let findShop;
 
+// DOM elementen
 function init() {
     gallery = document.querySelector('#shop-gallery');
     findShop = document.querySelector('#find-shop');
@@ -13,22 +14,24 @@ function init() {
     getShopAddressData();
 }
 
+// What kind of information does it need.
 function createShopAddress() {
+    // image logo
     const homeIcon = document.createElement('img');
     homeIcon.src = 'img/home-icon.png';
     homeIcon.alt = 'home';
     findShop.appendChild(homeIcon);
-
+    //search bar
     const searchProductBar = document.createElement('h2');
     searchProductBar.classList.add('findAddress');
     searchProductBar.innerText = 'Zoek Winkel + adres';
     findShop.appendChild(searchProductBar);
-
+    // the search bar input
     const searchInput = document.createElement('input');
     searchInput.setAttribute('type', 'text');
     searchInput.setAttribute('placeholder', 'zoek...');
     findShop.appendChild(searchInput);
-
+    //  microphone icon
     const micIcon = document.createElement('img');
     micIcon.src = 'img/microphone-icon.png';
     micIcon.alt = 'microphone';
@@ -71,6 +74,7 @@ function createShopAddress() {
     // (SISSI) end; Speech to Text coding
 }
 
+// Get the data from the apiUrl/Web API
 function getShopAddressData() {
 //     fetch api url
     fetch(apiUrl)
@@ -85,6 +89,7 @@ function getShopAddressData() {
         .catch(errorHandler);
 }
 
+// Create a loop of the cards
 function createShopAddressCards(data) {
     console.log(data);
     for (let shopAddress of data) {
@@ -98,9 +103,10 @@ function createShopAddressCards(data) {
     }
 }
 
+// Here you fill the cards with content
 function fillShopAddressCard(shopAddress) {
     const shopAddressCard = document.querySelector(`.shopAddress-card[data-id='${shopAddress.id}']`);
-
+    // add title aka the brand name
     const title = document.createElement('h2');
     title.innerText = `${shopAddress.shop}`;
     shopAddressCard.appendChild(title);
@@ -118,6 +124,7 @@ function fillShopAddressCard(shopAddress) {
 
 }
 
+// Error functie if there is something with the data.
 function errorHandler(error) {
     console.log(error);
     const message = document.createElement('div');

@@ -5,12 +5,13 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>ShopNav</title>
     <link rel="stylesheet" href="css/style.css">
     <!-- Airissa scanner barcode ding   -->
     <script src="https://cdn.rawgit.com/serratus/quaggaJS/0420d5e0/dist/quagga.min.js"></script>
     <script src="quagga.min.js"></script>
     <script type="text/javascript" src="js/main.js" defer></script>
+
+    <title>ShopNav</title>
 
 </head>
 
@@ -20,13 +21,10 @@
 </header>
 <main>
     <section id="find-shop">
-        <button id="startButton">Start</button>
-        <button id="clear">Reset</button>
-        <div id="output" contentEditable="true"></div>
+
+        <div id="scanner-container"></div>
     </section>
 
-    <div id="scanner-container"></div>
-    
 
     <section id="shop-gallery"></section>
 </main>

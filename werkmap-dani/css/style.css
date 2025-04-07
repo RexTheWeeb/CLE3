@@ -320,6 +320,7 @@ dialog#confirmation-screen {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    gap: 25px;
 }
 
 .product-card button {

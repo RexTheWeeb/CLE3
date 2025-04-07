@@ -132,6 +132,7 @@ function fetchProductDetails(id) {
             }
             displayProductDetails(productInfo, details);
         })
+        //Haal de error op als er iets mis gaat.
         .catch(error => {
             console.error("Error fetching details:", error.message);
             productDetails.innerHTML = `<p class="error-message">${error.message}</p>`;
@@ -181,6 +182,7 @@ function createConfirmationScreen(id) {
 
         })
         .then(details => {
+            //Check of de ID bestaat.
             const productInfo = productList.find(product => product.id === id);
             if (!productInfo) {
                 console.error("Product niet gevonden!");
@@ -188,6 +190,7 @@ function createConfirmationScreen(id) {
             }
             productConfirmationScreen(productInfo);
         })
+        //Laat de error zien als er iets misgaat.
         .catch(error => {
             console.error("Error fetching details:", error.message);
             confirmationScreen.innerHTML = `<p class="error-message">${error.message}</p>`;
@@ -203,6 +206,7 @@ function productConfirmationScreen(product) {
         <div class="confirmation-box">
          <img src="webservice/img/${product.id}.avif" alt="${product.name}" class="details-image">
          <h2>${product.name}</h2>
+         <p>Is dit het product die u wilt?</p>
           `
     buttonContainer.appendChild(confirmButtonCheck);
     buttonContainer.appendChild(confirmButtonCancel);

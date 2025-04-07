@@ -42,6 +42,22 @@ body {
         filter: invert(1);
     }
 
+    #find-shop {
+        background-color: var(--products-darkergrey);
+    }
+
+    #find-shop img {
+        filter: invert(1);
+    }
+
+    #shop-gallery {
+        background-color: var(--products-lightgrey);
+    }
+
+    .shopAddress-card {
+        background-color: var(--products-grey);
+    }
+
     #find-product {
         background-color: var(--products-darkergrey);
     }
@@ -57,6 +73,18 @@ body {
     .product-card {
         background-color: var(--products-grey);
     }
+
+    #details-list {
+        background-color: var(--products-darkergrey);
+    }
+
+    /*#details-list h2 {*/
+    /*    color: var(--products-darkergrey);*/
+    /*}*/
+
+    /*#details-list p {*/
+    /*    color: var(--products-darkergrey);*/
+    /*}*/
 
     footer {
         background-color: var(--products-darkergrey);
@@ -91,12 +119,18 @@ header {
     background-color: var(--products-lightergrey);
 
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
 }
 
 header img {
     width: 20vw;
+}
+
+header button {
+    padding: 2vh 1vw;
+    font-size: 1rem;
+    font-family: "Segoe UI Semibold";
 }
 
 /* find product page css */
@@ -125,9 +159,7 @@ header img {
     border: 2px solid var(--products-grey);
 }
 
-/*Airissa  scanner*/
-
-/* In order to place the tracking correctly */
+/*scanner*/
 canvas.drawing, canvas.drawingBuffer {
     position: absolute;
     left: 0;
@@ -175,6 +207,31 @@ footer h3 {
     font-size: 1.5rem;
 }
 
+#details-list {
+    display: flex;
+    justify-self: center;
+    align-self: center;
+
+    max-width: 75vw;
+    max-height: 80vh;
+
+    font-size: 1.5rem;
+}
+
+#details-list img {
+    width: 50vw;
+}
+
+#details-list button {
+    padding: 3vh 5vw;
+    font-size: 1.5rem;
+    background-color: var(--products-lightgrey);
+}
+
+body.open-dialog {
+    overflow: hidden;
+}
+
 /*.buttons {*/
 /*    display: flex;*/
 /*    justify-content: center;*/
@@ -190,6 +247,15 @@ footer h3 {
 /*}*/
 
 @media (max-width: 480px) {
+    header img {
+        width: 25vw;
+    }
+
+    header button {
+        padding: 0;
+        font-family: "Segoe UI";
+    }
+
     #find-product img {
         width: 20vw;
     }
@@ -212,6 +278,27 @@ footer h3 {
 
     .product-card img {
         width: 40vw;
+    }
+
+    #details-list {
+        max-width: 75vw;
+        max-height: 50vh;
+
+        font-size: 1.5rem;
+
+        img {
+            flex: 1;
+            align-self: center;
+            width: 55vw;
+        }
+
+        h2 {
+            font-size: 2rem;
+        }
+
+        p {
+            font-size: 1.5rem;
+        }
     }
 
     /*button {*/

@@ -6,8 +6,6 @@ const apiUrl = 'webservice/index.php';
 let productGallery;
 let findProduct;
 
-const LANG = "nl-NL"; // Dutch (Netherlands) language
-
 // This function runs when you search the url
 function init() {
     // Selects HTML elements
@@ -48,22 +46,23 @@ function createFindProduct() {
     findProductText.innerText = 'Vind Product';
     findProduct.appendChild(findProductText);
 
-    const searchInput = document.createElement('input');
-    searchInput.setAttribute('type', 'text');
-    searchInput.setAttribute('placeholder', 'zoek...');
-    findProduct.appendChild(searchInput);
+    const outputDiv = document.createElement('div');
+    outputDiv.id = 'output';
+    outputDiv.contentEditable = true;
+    findProduct.appendChild(outputDiv);
 
     const micIcon = document.createElement('img');
-    micIcon.src = 'webservice/img/CLE3-ShopNav-Icons-02.png';
+    micIcon.src = 'webservice/img/CLE3-ShopNav-Icons-01.png';
     micIcon.alt = 'microphone';
     micIcon.addEventListener("click", () => recognition.start()); // (SISSI) button to start speech to text
     findProduct.appendChild(micIcon);
 
-    // (SISSI) start; Speech to Text coding
-    const startButton = document.getElementById("startButton");
-    const outputDiv = document.getElementById("output");
-    const clearButton = document.getElementById("clear");
+    const clearButton = document.createElement('button');
+    clearButton.id = 'clearButton';
+    clearButton.innerText = 'Clear';
+    findProduct.appendChild(clearButton);
 
+    // (SISSI) start; Speech to Text coding
     // Constants for the language and the default language
     const LANG = "nl-NL"; // Dutch (Netherlands)
     const DEFAULT_LANG = "en-US"; // English (United States)
@@ -89,8 +88,8 @@ function createFindProduct() {
     };
 
     // Event listeners for the start and end of the recognition
-    recognition.onstart = () => startButton.textContent = "Luisteren...";
-    recognition.onend = () => startButton.textContent = "Start";
+    recognition.onstart = () => micIcon.src = 'webservice/img/CLE3-ShopNav-Icons-02.png';
+    recognition.onend = () => micIcon.src = 'webservice/img/CLE3-ShopNav-Icons-01.png';
     // (SISSI) end; Speech to Text coding
 
     // Airissa QuaggaJS Barscanner

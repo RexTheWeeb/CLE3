@@ -42,21 +42,29 @@ body {
         filter: invert(1);
     }
 
-    #find-product {
+    #find-shop {
         background-color: var(--products-darkergrey);
     }
 
-    #find-product img {
+    #find-shop img {
         filter: invert(1);
     }
 
-    #products-gallery {
+    #shop-gallery {
         background-color: var(--products-lightgrey);
     }
 
-    .product-card {
+    .shopAddress-card {
         background-color: var(--products-grey);
     }
+
+    /*#details-list h2 {*/
+    /*    color: var(--products-darkergrey);*/
+    /*}*/
+
+    /*#details-list p {*/
+    /*    color: var(--products-darkergrey);*/
+    /*}*/
 
     footer {
         background-color: var(--products-darkergrey);
@@ -91,12 +99,76 @@ header {
     background-color: var(--products-lightergrey);
 
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
 }
 
 header img {
     width: 20vw;
+}
+
+header button {
+    padding: 2vh 1vw;
+    font-size: 1rem;
+    font-family: "Segoe UI Semibold";
+}
+
+/* shops page */
+#shop-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 2vw;
+    gap: 10px;
+
+    background-color: var(--products-white);
+}
+
+#shop-gallery a {
+    text-decoration: none;
+    color: black;
+}
+
+#find-shop {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--products-lightergrey);
+
+    img {
+        width: 15vw;
+    }
+
+    h2 {
+        font-size: 2rem;
+    }
+
+    #output {
+        width: 50%;
+        height: 8vh;
+        padding: 0 1vw;
+        font-size: 2rem;
+        font-family: "Segoe UI";
+
+        background-color: var(--products-white);
+        border: 2px solid var(--products-grey);
+    }
+
+}
+
+.shopAddress-card {
+    background-color: var(--products-lightergrey);
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0.5vw;
+    align-items: center;
+
+    max-width: 35vw;
+}
+
+.shopAddress-card img {
+    width: 25vw;
 }
 
 /* find product page css */
@@ -125,9 +197,7 @@ header img {
     border: 2px solid var(--products-grey);
 }
 
-/*Airissa  scanner*/
-
-/* In order to place the tracking correctly */
+/*scanner*/
 canvas.drawing, canvas.drawingBuffer {
     position: absolute;
     left: 0;
@@ -165,6 +235,31 @@ canvas.drawing, canvas.drawingBuffer {
     width: 25vw;
 }
 
+#details-list {
+    display: flex;
+    justify-self: center;
+    align-self: center;
+
+    max-width: 75vw;
+    max-height: 80vh;
+
+    font-size: 1.5rem;
+}
+
+#details-list img {
+    width: 50vw;
+}
+
+#details-list button {
+    padding: 3vh 5vw;
+    font-size: 1.5rem;
+    background-color: var(--products-lightgrey);
+}
+
+body.open-dialog {
+    overflow: hidden;
+}
+
 footer {
     padding: 5vh 10vw;
     text-align: center;
@@ -172,6 +267,17 @@ footer {
 }
 
 footer h3 {
+    font-size: 1.5rem;
+}
+
+#details-list {
+    display: flex;
+    justify-self: center;
+    align-self: center;
+
+    max-width: 75vw;
+    max-height: 80vh;
+
     font-size: 1.5rem;
 }
 
@@ -190,6 +296,41 @@ footer h3 {
 /*}*/
 
 @media (max-width: 480px) {
+    header img {
+        width: 25vw;
+    }
+
+    header button {
+        padding: 0;
+        font-family: "Segoe UI";
+    }
+
+    .shopAddress-card {
+        max-width: 50vw;
+
+    }
+
+    #find-shop {
+        img {
+            height: 15vh;
+            width: auto;
+        }
+
+        input {
+
+            height: 5vh;
+            width: 50%;
+        }
+    }
+
+    .shopAddress-card h3 {
+        font-size: 1.5rem;
+    }
+
+    .shopAddress-card img {
+        width: 40vw;
+    }
+
     #find-product img {
         width: 20vw;
     }
@@ -214,7 +355,24 @@ footer h3 {
         width: 40vw;
     }
 
-    /*button {*/
-    /*    padding: 3vh 5vw;*/
-    /*}*/
+    #details-list {
+        max-width: 75vw;
+        max-height: 50vh;
+
+        font-size: 1.5rem;
+
+        img {
+            flex: 1;
+            align-self: center;
+            width: 55vw;
+        }
+
+        h2 {
+            font-size: 2rem;
+        }
+
+        p {
+            font-size: 1.5rem;
+        }
+    }
 }

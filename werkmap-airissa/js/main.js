@@ -35,51 +35,51 @@ function createShopAddress() {
     const micIcon = document.createElement('img');
     micIcon.src = 'img/microphone-icon.png';
     micIcon.alt = 'microphone';
-    micIcon.addEventListener("click", () => recognition.start()); // (SISSI) button to start speech to text
+    // micIcon.addEventListener("click", () => recognition.start()); // (SISSI) button to start speech to text
     findShop.appendChild(micIcon);
-
-    // (SISSI) start; Speech to Text coding
-    const startButton = document.getElementById("startButton");
-    const outputDiv = document.getElementById("output");
-    const clearButton = document.getElementById("clear");
-
-    // Constants for the language and the default language
-    const LANG = "nl-NL"; // Dutch (Netherlands)
-    const DEFAULT_LANG = "en-US"; // English (United States)
-
-    // Event listeners for the clear button
-    clearButton.addEventListener("click", () => {
-        outputDiv.textContent = "";
-    });
-
-    // Create a new SpeechRecognition object
-    const recognition = new (window.SpeechRecognition ||
-        window.webkitSpeechRecognition ||
-        window.mozSpeechRecognition ||
-        window.msSpeechRecognition)();
-
-    // Set the language of the recognition
-    recognition.lang = LANG;
-
-    // Event listeners for the recognition
-    recognition.onresult = (event) => {
-        const transcript = event.results[0][0].transcript;
-        outputDiv.textContent += ` ${transcript}`;
-    };
-
-    // Event listeners for the start and end of the recognition
-    recognition.onstart = () => startButton.textContent = "Luisteren...";
-    recognition.onend = () => startButton.textContent = "Start";
-
-    // (SISSI) end; Speech to Text coding
+    //
+    // // (SISSI) start; Speech to Text coding
+    // const startButton = document.getElementById("startButton");
+    // const outputDiv = document.getElementById("output");
+    // const clearButton = document.getElementById("clear");
+    //
+    // // Constants for the language and the default language
+    // const LANG = "nl-NL"; // Dutch (Netherlands)
+    // const DEFAULT_LANG = "en-US"; // English (United States)
+    //
+    // // Event listeners for the clear button
+    // clearButton.addEventListener("click", () => {
+    //     outputDiv.textContent = "";
+    // });
+    //
+    // // Create a new SpeechRecognition object
+    // const recognition = new (window.SpeechRecognition ||
+    //     window.webkitSpeechRecognition ||
+    //     window.mozSpeechRecognition ||
+    //     window.msSpeechRecognition)();
+    //
+    // // Set the language of the recognition
+    // recognition.lang = LANG;
+    //
+    // // Event listeners for the recognition
+    // recognition.onresult = (event) => {
+    //     const transcript = event.results[0][0].transcript;
+    //     outputDiv.textContent += ` ${transcript}`;
+    // };
+    //
+    // // Event listeners for the start and end of the recognition
+    // recognition.onstart = () => startButton.textContent = "Luisteren...";
+    // recognition.onend = () => startButton.textContent = "Start";
+    //
+    // // (SISSI) end; Speech to Text coding
 
 //     camera
     // Airissa QuaggaJS Barscanner
     const camIcon = document.createElement('img');
-    camIcon.src = 'webservice/img/CLE3-ShopNav-Icons-03.png';
+    camIcon.src = 'img/CLE3-ShopNav-Icons-03.png';
     camIcon.alt = 'camera';
     camIcon.id = 'btn';
-    findProduct.appendChild(camIcon);
+    findShop.appendChild(camIcon);
 
     var _scannerIsRunning = false;
 
@@ -90,8 +90,8 @@ function createShopAddress() {
                 type: "LiveStream",
                 target: document.querySelector('#scanner-container'),
                 constraints: {
-                    width: 480,
-                    height: 320,
+                    width: 250,
+                    height: 150,
                     facingMode: "environment"
                 },
             },
@@ -142,16 +142,19 @@ function createShopAddress() {
 
             if (result) {
                 if (result.boxes) {
-                    drawingCtx.clearRect(0, 0, parseInt(drawingCanvas.getAttribute("width")), parseInt(drawingCanvas.getAttribute("height")));
+                    drawingCtx.clearRect(1000, 1000, parseInt(drawingCanvas.getAttribute("width")), parseInt(drawingCanvas.getAttribute("height")));
                     result.boxes.filter(function (box) {
                         return box !== result.box;
                     }).forEach(function (box) {
-                        Quagga.ImageDebug.drawPath(box, {x: 0, y: 1}, drawingCtx, {color: "green", lineWidth: 2});
+                        Quagga.ImageDebug.drawPath(box, {x: 1000, y: 1000}, drawingCtx, {color: "green", lineWidth: 2});
                     });
                 }
 
                 if (result.box) {
-                    Quagga.ImageDebug.drawPath(result.box, {x: 0, y: 1}, drawingCtx, {color: "#00F", lineWidth: 2});
+                    Quagga.ImageDebug.drawPath(result.box, {x: 1000, y: 1000}, drawingCtx, {
+                        color: "#00F",
+                        lineWidth: 2
+                    });
                 }
 
                 if (result.codeResult && result.codeResult.code) {

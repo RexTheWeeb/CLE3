@@ -81,6 +81,13 @@ header, h1 {
 
 }
 
+/*scanner*/
+canvas.drawing, canvas.drawingBuffer {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
 .shopAddress-card {
     background-color: var(--products-lightergrey);
     display: flex;

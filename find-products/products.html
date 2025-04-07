@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -12,21 +12,26 @@
     <script type="text/javascript" src="js/main.js" defer></script>
 
     <title>ShopNav</title>
-
 </head>
 
 <body>
 <header>
+    <img src="webservice/img/CLE3-ShopNav-Logo.png">
     <h1>SHOPNAV</h1>
+    <button onclick="modeSwitch()">Toggle dark mode</button>
 </header>
 <main>
-    <section id="find-shop">
+    <section id="find-product"></section>
+    <div id="scanner-container"></div>
+    <section id="products-gallery"></section>
 
-        <div id="scanner-container"></div>
-    </section>
+    <dialog id="details-list">
+        <button type="button" id="close-button" hidden>Close</button>
+    </dialog>
+    <div id="confirmation-screen"></div>
+    <button type="button" id="confirm-check" hidden>✔</button>
+    <button type="button" id="confirm-cancel" hidden>❌</button>
 
-
-    <section id="shop-gallery"></section>
 </main>
 <footer>
     <h3>© Team 2</h3>

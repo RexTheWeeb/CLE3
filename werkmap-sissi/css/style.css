@@ -114,14 +114,15 @@ header img {
     width: 15vw;
 }
 
-#find-product input {
+#find-product #output {
     width: 50%;
     height: 8vh;
     padding: 0 1vw;
     font-size: 2rem;
+    font-family: "Segoe UI";
 
     background-color: var(--products-white);
-    border-color: var(--products-white);
+    border: 2px solid var(--products-grey);
 }
 
 /*Airissa  scanner*/

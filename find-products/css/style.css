@@ -133,67 +133,6 @@ header button {
     font-family: "Segoe UI Semibold";
 }
 
-/* shops page */
-#shop-gallery {
-    display: flex;
-    flex-wrap: wrap;
-    padding: 2vw;
-    gap: 10px;
-
-    background-color: var(--products-white);
-}
-
-#shop-gallery a {
-    text-decoration: none;
-    color: black;
-}
-
-#find-shop {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: var(--products-lightergrey);
-
-    img {
-        width: 15vw;
-    }
-
-    h2 {
-        font-size: 2rem;
-    }
-
-    input {
-        padding: 0 1vw;
-        background-color: white;
-        border-color: white;
-        height: 10vh;
-        width: 50vw;
-        font-size: 2rem;
-    }
-
-}
-
-.shopAddress-card {
-    background-color: var(--products-lightergrey);
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    gap: 10px;
-    padding: 0.5vw;
-    align-items: center;
-
-    max-width: 35vw;
-}
-
-.shopAddress-card img {
-    width: 25vw;
-}
-
-#play-form {
-    display: flex;
-    justify-content: center;
-}
-
 /* find product page css */
 #find-product {
     display: flex;
@@ -209,14 +148,22 @@ header button {
     width: 15vw;
 }
 
-#find-product input {
+#find-product #output {
     width: 50%;
     height: 8vh;
     padding: 0 1vw;
     font-size: 2rem;
+    font-family: "Segoe UI";
 
     background-color: var(--products-white);
-    border-color: var(--products-white);
+    border: 2px solid var(--products-grey);
+}
+
+/*scanner*/
+canvas.drawing, canvas.drawingBuffer {
+    position: absolute;
+    left: 0;
+    top: 0;
 }
 
 /* product display page css */
@@ -261,6 +208,7 @@ footer h3 {
 }
 
 #details-list {
+    display: flex;
     justify-self: center;
     align-self: center;
 
@@ -282,51 +230,6 @@ footer h3 {
 
 body.open-dialog {
     overflow: hidden;
-}
-
-dialog#details-list {
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-#confirmation-screen {
-    justify-self: center;
-    align-self: center;
-
-    max-width: 75vw;
-    max-height: 80vh;
-
-    font-size: 1.5rem;
-}
-
-#confirmation-screen img {
-    width: 50vw;
-}
-
-#confirmation-screen button {
-    padding: 3vh 5vw;
-    font-size: 1.5rem;
-    background-color: var(--products-lightgrey);
-}
-
-dialog#confirmation-screen {
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-#button-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 25px;
-}
-
-.product-card button {
-    padding: 3vh 5vw;
-    font-size: 1.5rem;
-    background-color: var(--products-lightgrey);
 }
 
 /*.buttons {*/
@@ -351,35 +254,6 @@ dialog#confirmation-screen {
     header button {
         padding: 0;
         font-family: "Segoe UI";
-    }
-
-    .shopAddress-card {
-        max-width: 50vw;
-
-    }
-
-    #find-shop {
-        img {
-            height: 15vh;
-            width: auto;
-        }
-
-        input {
-
-            height: 5vh;
-            width: 50%;
-        }
-    }
-
-    /*.product-card h2 {*/
-    /*    font-size: 1.5rem;*/
-    /*}*/
-    .shopAddress-card h3 {
-        font-size: 1.5rem;
-    }
-
-    .shopAddress-card img {
-        width: 40vw;
     }
 
     #find-product img {

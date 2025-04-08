@@ -5,40 +5,59 @@ let target;
 
 let mapAlign;
 
-let mapBottom;
-let mapLeft;
+let offsetBottom;
+let offsetLeft;
 let gpsLocation;
-/*
-let gpsButton;
 
 
-let zoomAmount;
-let goZoom;
-
-let userHeading = 0;
-let setTimer = 0;
-let rotateImage;
-*/
-
-
-/*
-let northEastCoords = {
-    long: 4.483382,
-    lat: 51.917750,
+const northWestCoords = {
+    lat: 51.917422377385854,
+    long: 4.484449450314969,
+}
+const northEastCoords = {
+    lat: 51.917478021432544,
+    long: 4.484716487862897,
+}
+const southWestCoords = {
+    lat: 51.91727858333623,
+    long: 4.484538127000633,
 }
 const southEastCoords = {
-    long: 4.483382,
-    lat: 51.917209,
+    lat: 51.91733537180129,
+    long: 4.48481101998118,
 }
-let northWestCoords = {
-    long: 4.485143,
-    lat: 51.917750,
+
+const mapTop = Math.max(northWestCoords.lat, northEastCoords.lat, southWestCoords.lat, southEastCoords.lat)
+const mapBottom = Math.min(northWestCoords.lat, northEastCoords.lat, southWestCoords.lat, southEastCoords.lat);
+const mapLeft = Math.min(northWestCoords.long, northEastCoords.long, southWestCoords.long, southEastCoords.long);
+const mapRight = Math.max(northWestCoords.long, northEastCoords.long, southWestCoords.long, southEastCoords.long);
+const mapHeight = mapTop - mapBottom;
+const mapWidth = mapLeft - mapRight;
+
+
+const mapMiddlePoint = {
+    lat: mapTop - (mapHeight / 2),
+    long: mapRight - (mapWidth / 2),
 }
-let southWestCoords = {
-    long: 4.485143,
-    lat: 51.917209,
+
+const latLength = (Math.pow((northWestCoords.lat - northEastCoords.lat), 2) + Math.pow((northWestCoords.long - northEastCoords.long), 2));
+const latAngle = {
+    a: (northWestCoords.lat - northEastCoords.lat) / (northWestCoords.long - northEastCoords.long),
+    b: (northWestCoords.lat - mapMiddlePoint.lat)
 }
-*/
+
+const longLength = (Math.pow((northWestCoords.long - northEastCoords.long), 2) + Math.pow((northWestCoords.long - northEastCoords.long), 2));
+const longAngle = {
+    a: (northWestCoords.long - southWestCoords.long) / (northWestCoords.lat - southWestCoords.lat),
+    b: (northWestCoords.long - mapMiddlePoint.long)
+}
+
+
+const lookAtAllThoseChickens = [mapTop, mapBottom, mapLeft, mapRight, mapHeight, mapWidth, latLength, longLength];
+console.log(`look at all those numbers ${lookAtAllThoseChickens}`);
+console.log(latAngle);
+console.log(longAngle);
+
 
 /*
     middle-point: 51.917756142557614, 4.486753365589036
@@ -50,12 +69,12 @@ let southWestCoords = {
 */
 
 
-const middleLat = 51.91745720241767;
+/*const middleLat = 51.91745720241767;
 const middleLong = 4.484286416720071;
 const deltaLong = 0.001683188127687;
 const deltaLat = 0.00075861969161;
 const phonePosLat = 51.91733333391915;
-const phonePosLong = 4.484693345428029;
+const phonePosLong = 4.484693345428029;*/
 // const phonePosLat = 51.91740202637835;
 // const phonePosLong = 4.484222738958786;
 
@@ -152,30 +171,28 @@ function startUpdating(location) {
 }
 
 async function updatePointerPosition(location) {
-    const userLatitude = location.coords.latitude;
-    const userLongitude = location.coords.longitude;
-    console.log(`userLongitude is ${userLongitude} and userLatitude is ${userLatitude}`);
+    const userPosition = {
+        lat: location.coords.latitude,
+        long: location.coords.longitude,
+    }
+    console.log(`userLatitude is ${userPosition.lat} and userLongitude is ${userPosition.long}`);
 
-    const deltaPosLat = userLatitude - middleLat;
-    const deltaPosLong = middleLong - userLongitude;
-    const finalCalcLat = deltaPosLat / deltaLat;
-    const finalCalcLong = deltaPosLong / deltaLong;
+    const userPositionDelta = {
+        lat: userPosition.lat - mapMiddlePoint.lat,
+        long: userPosition.long - mapMiddlePoint.long
+    }
 
-    console.log('phonePosLat ' + phonePosLat);
-    console.log('phonePosLong ' + phonePosLong);
-    console.log('deltaPosLat ' + deltaPosLat);
-    console.log('deltaPosLong ' + deltaPosLong);
-    console.log('finalCalcLat ' + finalCalcLat);
-    console.log('finalCalcLong ' + finalCalcLong);
+    // latAngle.a*userPositionDelta.lat+(latAngle.b-userPositionDelta.long) = longAngle.a*x+longAnlge.b
+    // longAngle.a*userPositionDelta.long+(longAngle.b-userPositionDelta.lat) = longAngle.a*x+longAnlge.b
 
 
     let longitudeScreenPos = finalCalcLong * 100;
     let latitudeScreenPos = finalCalcLat * 100;
 
-    mapBottom = latitudeScreenPos.toFixed(5);
-    mapLeft = longitudeScreenPos.toFixed(5);
-    mapAlign.style.transform = `translate(${mapLeft}%, ${mapBottom}%)`;
-    console.log(`mapBottom is ${mapBottom} and mapTop is ${mapLeft}`);
+    offsetBottom = latitudeScreenPos.toFixed(5);
+    offsetLeft = longitudeScreenPos.toFixed(5);
+    mapAlign.style.transform = `translate(${offsetLeft}%, ${offsetBottom}%)`;
+    console.log(`mapBottom is ${offsetBottom} and mapTop is ${offsetLeft}`);
 }
 
 
@@ -183,8 +200,18 @@ function error(err) {
     console.warn(`ERROR(${err.code}): ${err.message}`);
 }
 
+/*
+let gpsButton;
 
-/* async function changeHeading(heading) {
+
+let zoomAmount;
+let goZoom;
+
+let userHeading = 0;
+let setTimer = 0;
+let rotateImage;
+
+async function changeHeading(heading) {
     if (Date.now() >= setTimer || setTimer == 0) {
         console.log(`${heading.alpha}`);
         if (heading.alpha != null) {

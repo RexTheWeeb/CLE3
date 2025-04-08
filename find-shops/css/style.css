@@ -58,26 +58,6 @@ body {
         background-color: var(--products-grey);
     }
 
-    #find-product {
-        background-color: var(--products-darkergrey);
-    }
-
-    #find-product img {
-        filter: invert(1);
-    }
-
-    #products-gallery {
-        background-color: var(--products-lightgrey);
-    }
-
-    .product-card {
-        background-color: var(--products-grey);
-    }
-
-    #details-list {
-        background-color: var(--products-darkergrey);
-    }
-
     /*#details-list h2 {*/
     /*    color: var(--products-darkergrey);*/
     /*}*/
@@ -162,13 +142,15 @@ header button {
         font-size: 2rem;
     }
 
-    input {
+    #output {
+        width: 50%;
+        height: 8vh;
         padding: 0 1vw;
-        background-color: white;
-        border-color: white;
-        height: 10vh;
-        width: 50vw;
         font-size: 2rem;
+        font-family: "Segoe UI";
+
+        background-color: var(--products-white);
+        border: 2px solid var(--products-grey);
     }
 
 }
@@ -189,11 +171,6 @@ header button {
     width: 25vw;
 }
 
-#play-form {
-    display: flex;
-    justify-content: center;
-}
-
 /* find product page css */
 #find-product {
     display: flex;
@@ -209,14 +186,22 @@ header button {
     width: 15vw;
 }
 
-#find-product input {
+#find-product #output {
     width: 50%;
     height: 8vh;
     padding: 0 1vw;
     font-size: 2rem;
+    font-family: "Segoe UI";
 
     background-color: var(--products-white);
-    border-color: var(--products-white);
+    border: 2px solid var(--products-grey);
+}
+
+/*scanner*/
+canvas.drawing, canvas.drawingBuffer {
+    position: absolute;
+    left: 0;
+    top: 0;
 }
 
 /* product display page css */
@@ -250,17 +235,8 @@ header button {
     width: 25vw;
 }
 
-footer {
-    padding: 5vh 10vw;
-    text-align: center;
-    background-color: var(--products-lightgrey);
-}
-
-footer h3 {
-    font-size: 1.5rem;
-}
-
 #details-list {
+    display: flex;
     justify-self: center;
     align-self: center;
 
@@ -284,13 +260,18 @@ body.open-dialog {
     overflow: hidden;
 }
 
-dialog#details-list {
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+footer {
+    padding: 5vh 10vw;
+    text-align: center;
+    background-color: var(--products-lightgrey);
 }
 
-#confirmation-screen {
+footer h3 {
+    font-size: 1.5rem;
+}
+
+#details-list {
+    display: flex;
     justify-self: center;
     align-self: center;
 
@@ -298,35 +279,6 @@ dialog#details-list {
     max-height: 80vh;
 
     font-size: 1.5rem;
-}
-
-#confirmation-screen img {
-    width: 50vw;
-}
-
-#confirmation-screen button {
-    padding: 3vh 5vw;
-    font-size: 1.5rem;
-    background-color: var(--products-lightgrey);
-}
-
-dialog#confirmation-screen {
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-#button-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 25px;
-}
-
-.product-card button {
-    padding: 3vh 5vw;
-    font-size: 1.5rem;
-    background-color: var(--products-lightgrey);
 }
 
 /*.buttons {*/
@@ -371,9 +323,6 @@ dialog#confirmation-screen {
         }
     }
 
-    /*.product-card h2 {*/
-    /*    font-size: 1.5rem;*/
-    /*}*/
     .shopAddress-card h3 {
         font-size: 1.5rem;
     }
@@ -426,8 +375,4 @@ dialog#confirmation-screen {
             font-size: 1.5rem;
         }
     }
-
-    /*button {*/
-    /*    padding: 3vh 5vw;*/
-    /*}*/
 }

@@ -7,6 +7,7 @@ let findProduct;
 let body;
 let productList = [];
 let productDetails;
+let buttonContainer;
 let detailsContent;
 let productGallery;
 let confirmationScreen;
@@ -14,22 +15,27 @@ let dialogButton;
 let confirmButtonCheck;
 let confirmButtonCancel;
 
+
 function init() {
     body = document.querySelector('body');
     productGallery = document.querySelector('#products-gallery');
     productDetails = document.querySelector('#details-list');
     detailsContent = document.querySelector('#detail-container');
+    buttonContainer = document.querySelector('#button-container');
     confirmationScreen = document.querySelector('#confirmation-screen');
     dialogButton = document.querySelector('#close-button');
     confirmButtonCheck = document.querySelector('#confirm-check');
     confirmButtonCancel = document.querySelector('#confirm-cancel');
     productDetails.addEventListener("click", detailClickHandler);
     productDetails.addEventListener("close", detailCloseHandler);
+    confirmationScreen.addEventListener("click", confirmationClickHandler);
+    confirmationScreen.addEventListener("close", confirmationCloseHandler);
 
     findProduct = document.querySelector('#find-product');
 
     createFindProduct();
     getProductData();
+
 }
 
 function modeSwitch() {
@@ -337,42 +343,63 @@ function getProductData() {
         .catch(ajaxErrorHandler);
 }
 
-function createProductCards(productsData) {
-    console.log(productsData);
+function createProductCards(data) {
+    console.log(data);
 
-    for (let product of productsData) {
+    for (let product of data) {
         const productCard = document.createElement('div');
         productCard.classList.add('product-card');
         productCard.dataset.name = product.name;
 
         productGallery.appendChild(productCard);
         fillProductCard(product);
-        productList = productsData;
+        productList = data;
     }
 }
 
 function fillProductCard(product) {
     const productCard = document.querySelector(`.product-card[data-name='${product.name}']`);
 
+    //Genereer de naam.
     const productName = document.createElement('h2');
     productName.classList.add('name');
     productName.innerText = `${product.name}`;
     productCard.appendChild(productName);
 
+    //Genereer de afbeelding.
     const productImg = document.createElement('img');
     productImg.src = `webservice/img/${product.id}.avif`;
     productImg.alt = product.name;
     productCard.appendChild(productImg);
-    productImg.addEventListener("click", function () {
-        createConfirmationScreen(product.id);
-        fetchProductDetails(product.id);
-        console.log(product.id)
-    });
+    //Voeg de klik element toe om de details later op te roepen.
 
+    //Genereer de prijs.
     const productPrice = document.createElement('h3');
     productPrice.classList.add('price');
     productPrice.innerText = `€${product.price}`;
     productCard.appendChild(productPrice);
+
+    //Genereer de details knop.
+    const detailButton = document.createElement("BUTTON");
+    const buttonContent = document.createTextNode('Details');
+    detailButton.classList.add('detail-button');
+    detailButton.appendChild(buttonContent);
+    productCard.appendChild(detailButton);
+    detailButton.addEventListener("click", function () {
+        fetchProductDetails(product.id);
+        console.log(product.id)
+    });
+
+    //Genereer de confirmatie knop.
+    const searchButton = document.createElement("BUTTON");
+    const searchButtonText = document.createTextNode('Zoek naar product');
+    searchButton.classList.add('search-button');
+    searchButton.appendChild(searchButtonText);
+    productCard.appendChild(searchButton);
+    searchButton.addEventListener("click", function () {
+        createConfirmationScreen(product.id);
+    });
+
 }
 
 function ajaxErrorHandler(error) {
@@ -392,6 +419,7 @@ function fetchProductDetails(id) {
 
         })
         .then(details => {
+            //Check of het ID klopt met de details.
             const productInfo = productList.find(product => product.id === id);
             if (!productInfo) {
                 console.error("Product niet gevonden!");
@@ -399,6 +427,7 @@ function fetchProductDetails(id) {
             }
             displayProductDetails(productInfo, details);
         })
+        //Haal de error op als er iets mis gaat.
         .catch(error => {
             console.error("Error fetching details:", error.message);
             productDetails.innerHTML = `<p class="error-message">${error.message}</p>`;
@@ -410,16 +439,18 @@ function displayProductDetails(product, details) {
     dialogButton.style.display = "block";
     //Genereer de HTML content.
     productDetails.innerHTML =
-        `<img src="webservice/img/${product.id}.avif" alt="${product.name}" class="details-image">
+        ` 
+<img src="webservice/img/${product.id}.avif" alt="${product.name}" class="details-image">
          <h2>${product.name}</h2>
          <p>Ingredienten: ${details.ingredients}</p>
          <p>Gewicht: ${details.weight}</p>
          <p>Allergien: ${details.allergies}</p>
         `
     productDetails.appendChild(dialogButton);
-    productDetails.style.display = "block";
+    productDetails.style.display = "flex";
     productDetails.showModal();
     body.classList.add("open-dialog");
+    document.documentElement.classList.add("open-dialog");
 }
 
 function detailClickHandler(e) {
@@ -438,13 +469,14 @@ function detailCloseHandler() {
 
 function createConfirmationScreen(id) {
     //Genereer de confirmatie scherm.
-    fetch(`webservice/index.php?id=${id}`)
+    fetch(`webservice/products.php?id=${id}`)
         .then(response => {
 
             return response.json();
 
         })
         .then(details => {
+            //Check of de ID bestaat.
             const productInfo = productList.find(product => product.id === id);
             if (!productInfo) {
                 console.error("Product niet gevonden!");
@@ -452,12 +484,14 @@ function createConfirmationScreen(id) {
             }
             productConfirmationScreen(productInfo);
         })
+        //Laat de error zien als er iets misgaat.
         .catch(error => {
             console.error("Error fetching details:", error.message);
-            // confirmationScreen.innerHTML = `<p class="error-message">${error.message}</p>`;
+            confirmationScreen.innerHTML = `<p class="error-message">${error.message}</p>`;
         });
 }
 
+//Maak het product confirmatie scherm.
 function productConfirmationScreen(product) {
     confirmButtonCheck.style.display = "block";
     confirmButtonCancel.style.display = "block";
@@ -466,13 +500,29 @@ function productConfirmationScreen(product) {
         <div class="confirmation-box">
          <img src="webservice/img/${product.id}.avif" alt="${product.name}" class="details-image">
          <h2>${product.name}</h2>
+         <p>Is dit het product die u wilt?</p>
           `
-    confirmationScreen.appendChild(confirmButtonCheck);
-    confirmationScreen.appendChild(confirmButtonCancel);
+    buttonContainer.appendChild(confirmButtonCheck);
+    buttonContainer.appendChild(confirmButtonCancel);
+    confirmationScreen.appendChild(buttonContainer);
+    confirmationScreen.style.display = "flex";
     confirmButtonCheck.addEventListener("click", () => {
 
-    })
-    confirmButtonCancel.addEventListener("click", () => {
+    });
+    confirmationScreen.showModal();
+    body.classList.add("open-dialog");
+}
 
-    })
+function confirmationClickHandler(e) {
+    //Sluit de details venster.
+    if (e.target === confirmButtonCancel) {
+        confirmationScreen.close();
+    }
+}
+
+function confirmationCloseHandler() {
+    //Verwijder de content in het venster.
+    body.classList.remove('open-dialog');
+    confirmationScreen.innerHTML = "";
+    confirmationScreen.style.display = "none";
 }

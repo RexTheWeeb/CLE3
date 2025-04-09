@@ -157,6 +157,7 @@ function displayProductDetails(product, details) {
     productDetails.style.display = "flex";
     productDetails.showModal();
     body.classList.add("open-dialog");
+    document.documentElement.classList.add("open-dialog");
 }
 
 function detailClickHandler(e) {

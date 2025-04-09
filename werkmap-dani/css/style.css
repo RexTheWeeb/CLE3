@@ -285,9 +285,12 @@ body.open-dialog {
 }
 
 dialog#details-list {
+    position: fixed;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    width: fit-content;
 }
 
 #confirmation-screen {
@@ -427,7 +430,30 @@ dialog#confirmation-screen {
         }
     }
 
+    dialog#details-list {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    dialog#confirmation-screen {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    #dialog-wrapper {
+        overflow-x: hidden;
+        position: relative;
+    }
+
     /*button {*/
     /*    padding: 3vh 5vw;*/
     /*}*/
+
 }

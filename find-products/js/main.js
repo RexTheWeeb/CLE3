@@ -412,7 +412,7 @@ function ajaxErrorHandler(error) {
 
 function fetchProductDetails(id) {
     //Fetch de details van de product.
-    fetch(`webservice/index.php?id=${id}`)
+    fetch(`webservice/products.php?id=${id}`)
         .then(response => {
 
             return response.json();
@@ -469,7 +469,7 @@ function detailCloseHandler() {
 
 function createConfirmationScreen(id) {
     //Genereer de confirmatie scherm.
-    fetch(`webservice/index.php?id=${id}`)
+    fetch(`webservice/products.php?id=${id}`)
         .then(response => {
 
             return response.json();

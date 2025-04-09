@@ -1,10 +1,6 @@
 window.addEventListener('load', init);
 
 const productsApi = '../webservice/products.php';
-const shopsApi = '../webservice/shops.php';
-
-let gallery;
-let findShop;
 
 let findProduct;
 
@@ -30,13 +26,8 @@ function init() {
     productDetails.addEventListener("click", detailClickHandler);
     productDetails.addEventListener("close", detailCloseHandler);
 
-    gallery = document.querySelector('#shop-gallery');
-    findShop = document.querySelector('#find-shop');
-    // gallery.addEventListener('click', ShopClickHandler);
     findProduct = document.querySelector('#find-product');
 
-    createShopAddress();
-    getShopAddressData();
     createFindProduct();
     getProductData();
 }
@@ -45,6 +36,8 @@ function modeSwitch() {
     let body = document.body;
     body.classList.toggle('dark-mode');
 }
+
+/*
 
 function createShopAddress() {
     const homeIcon = document.createElement('img');
@@ -57,15 +50,49 @@ function createShopAddress() {
     searchProductBar.innerText = 'Zoek Winkel + adres';
     findShop.appendChild(searchProductBar);
 
-    const searchInput = document.createElement('input');
-    searchInput.setAttribute('type', 'text');
-    searchInput.setAttribute('placeholder', 'zoek...');
-    findShop.appendChild(searchInput);
+    const outputDiv = document.createElement('div');
+    outputDiv.id = 'output';
+    outputDiv.contentEditable = true;
+    findProduct.appendChild(outputDiv);
 
     const micIcon = document.createElement('img');
-    micIcon.src = '../webservice/img/CLE3-ShopNav-Icons-02.png';
+    micIcon.src = '../webservice/img/CLE3-ShopNav-Icons-01.png';
     micIcon.alt = 'microphone';
     findShop.appendChild(micIcon);
+
+    const clearButton = document.createElement('button');
+    clearButton.id = 'clearButton';
+    clearButton.innerText = 'Clear';
+    findProduct.appendChild(clearButton);
+
+    // (SISSI) start; Speech to Text coding
+    // Constants for the language and the default language
+    const LANG = "nl-NL"; // Dutch (Netherlands)
+
+    // Event listeners for the clear button
+    clearButton.addEventListener("click", () => {
+        outputDiv.textContent = "";
+    });
+
+    // Create a new SpeechRecognition object
+    const recognition = new (window.SpeechRecognition ||
+        window.webkitSpeechRecognition ||
+        window.mozSpeechRecognition ||
+        window.msSpeechRecognition)();
+
+    // Set the language of the recognition
+    recognition.lang = LANG;
+
+    // Event listeners for the recognition
+    recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        outputDiv.textContent += ` ${transcript}`;
+    };
+
+    // Event listeners for the start and end of the recognition
+    recognition.onstart = () => micIcon.src = '../webservice/img/CLE3-ShopNav-Icons-02.png';
+    recognition.onend = () => micIcon.src = '../webservice/img/CLE3-ShopNav-Icons-01.png';
+    // (SISSI) end; Speech to Text coding
 }
 
 function getShopAddressData() {
@@ -89,6 +116,7 @@ function createShopAddressCards(data) {
         shopAddressCard.classList.add('shopAddress-card');
         shopAddressCard.href = '#find-product';
         shopAddressCard.dataset.id = shopAddress.id;
+
         gallery.appendChild(shopAddressCard);
         fillShopAddressCard(shopAddress);
 
@@ -104,7 +132,7 @@ function fillShopAddressCard(shopAddress) {
 
     // add img
     const shopImage = document.createElement('img');
-    shopImage.src = '../webservice/img/Jumbo.png';
+    shopImage.src = '../webservice/img/jumbo.png';
     shopImage.alt = shopAddress.shop;
     shopAddressCard.appendChild(shopImage);
 
@@ -113,43 +141,185 @@ function fillShopAddressCard(shopAddress) {
     address.innerText = `${shopAddress.address}`;
     shopAddressCard.appendChild(address);
 
-}
 
-/*function shopClickHandler(e) {
-    console.log(e.target);
-    const clickedItem = e.target;
-}*/
+}
+*/
 
 function createFindProduct() {
     const div = document.createElement('div');
     div.classList.add('top-buttons');
     findProduct.appendChild(div);
 
+    const aBack = document.createElement('a');
+    aBack.href = './find-shops.html';
+    div.appendChild(aBack);
+
+    const aHome = document.createElement('a');
+    aHome.href = './find-shops.html';
+    div.appendChild(aHome);
+
     const backIcon = document.createElement('img');
     backIcon.src = '../webservice/img/CLE3-ShopNav-Icons-05.png';
     backIcon.alt = 'back';
-    div.appendChild(backIcon);
+    backIcon.href = '#find-shop';
+    aBack.appendChild(backIcon);
 
     const homeIcon = document.createElement('img');
     homeIcon.src = '../webservice/img/CLE3-ShopNav-Icons-04.png';
     homeIcon.alt = 'home';
-    div.appendChild(homeIcon);
+    aHome.appendChild(homeIcon);
 
     const findProductText = document.createElement('h2');
     findProductText.classList.add('findProduct');
     findProductText.innerText = 'Vind Product';
     findProduct.appendChild(findProductText);
 
-    const searchInput = document.createElement('input');
-    searchInput.setAttribute('type', 'text');
-    searchInput.setAttribute('placeholder', 'zoek...');
-    findProduct.appendChild(searchInput);
+    const outputDiv = document.createElement('div');
+    outputDiv.id = 'output';
+    outputDiv.contentEditable = true;
+    findProduct.appendChild(outputDiv);
 
     const micIcon = document.createElement('img');
-    micIcon.src = '../webservice/img/CLE3-ShopNav-Icons-02.png';
+    micIcon.src = '../webservice/img/CLE3-ShopNav-Icons-01.png';
     micIcon.alt = 'microphone';
     micIcon.addEventListener('click', micClickHandler);
     findProduct.appendChild(micIcon);
+
+    const clearButton = document.createElement('button');
+    clearButton.id = 'clearButton';
+    clearButton.innerText = 'Clear';
+    findProduct.appendChild(clearButton);
+
+    // (SISSI) start; Speech to Text coding
+    // Constants for the language and the default language
+    const LANG = "nl-NL"; // Dutch (Netherlands)
+
+    // Event listeners for the clear button
+    clearButton.addEventListener("click", () => {
+        outputDiv.textContent = "";
+    });
+
+    // Create a new SpeechRecognition object
+    const recognition = new (window.SpeechRecognition ||
+        window.webkitSpeechRecognition ||
+        window.mozSpeechRecognition ||
+        window.msSpeechRecognition)();
+
+    // Set the language of the recognition
+    recognition.lang = LANG;
+
+    // Event listeners for the recognition
+    recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        outputDiv.textContent += ` ${transcript}`;
+    };
+
+    // Event listeners for the start and end of the recognition
+    recognition.onstart = () => micIcon.src = '../webservice/img/CLE3-ShopNav-Icons-02.png';
+    recognition.onend = () => micIcon.src = '../webservice/img/CLE3-ShopNav-Icons-01.png';
+    // (SISSI) end; Speech to Text coding
+
+    // Airissa QuaggaJS Barscanner
+    const camIcon = document.createElement('img');
+    camIcon.src = '../webservice/img/CLE3-ShopNav-Icons-03.png';
+    camIcon.alt = 'camera';
+    camIcon.id = 'btn';
+    findProduct.appendChild(camIcon);
+
+    var _scannerIsRunning = false;
+
+    function startScanner() {
+        Quagga.init({
+            inputStream: {
+                name: "Live",
+                type: "LiveStream",
+                target: document.querySelector('#scanner-container'),
+                constraints: {
+                    width: 480,
+                    height: 320,
+                    facingMode: "environment"
+                },
+            },
+            decoder: {
+                readers: [
+                    "code_128_reader",
+                    "ean_reader",
+                    "ean_8_reader",
+                    "code_39_reader",
+                    "code_39_vin_reader",
+                    "codabar_reader",
+                    "upc_reader",
+                    "upc_e_reader",
+                    "i2of5_reader"
+                ],
+                debug: {
+                    showCanvas: true,
+                    showPatches: true,
+                    showFoundPatches: true,
+                    showSkeleton: true,
+                    showLabels: true,
+                    showPatchLabels: true,
+                    showRemainingPatchLabels: true,
+                    boxFromPatches: {
+                        showTransformed: true,
+                        showTransformedBox: true,
+                        showBB: true
+                    }
+                }
+            },
+
+        }, function (err) {
+            if (err) {
+                console.log(err);
+                return
+            }
+
+            console.log("Initialization finished. Ready to start");
+            Quagga.start();
+
+            // Set flag to is running
+            _scannerIsRunning = true;
+        });
+
+        Quagga.onProcessed(function (result) {
+            var drawingCtx = Quagga.canvas.ctx.overlay,
+                drawingCanvas = Quagga.canvas.dom.overlay;
+
+            if (result) {
+                if (result.boxes) {
+                    drawingCtx.clearRect(0, 0, parseInt(drawingCanvas.getAttribute("width")), parseInt(drawingCanvas.getAttribute("height")));
+                    result.boxes.filter(function (box) {
+                        return box !== result.box;
+                    }).forEach(function (box) {
+                        Quagga.ImageDebug.drawPath(box, {x: 0, y: 1}, drawingCtx, {color: "green", lineWidth: 2});
+                    });
+                }
+
+                if (result.box) {
+                    Quagga.ImageDebug.drawPath(result.box, {x: 0, y: 1}, drawingCtx, {color: "#00F", lineWidth: 2});
+                }
+
+                if (result.codeResult && result.codeResult.code) {
+                    Quagga.ImageDebug.drawPath(result.line, {x: 'x', y: 'y'}, drawingCtx, {color: 'red', lineWidth: 3});
+                }
+            }
+        });
+
+
+        Quagga.onDetected(function (result) {
+            console.log("Barcode detected and processed : [" + result.codeResult.code + "]", result);
+        });
+    }
+
+
+    // Start/stop scanner
+    document.getElementById("btn").addEventListener("click", function () {
+        if (_scannerIsRunning) {
+            Quagga.stop();
+        } else {
+            startScanner();
+        }
+    }, false);
 }
 
 function micClickHandler(e) {

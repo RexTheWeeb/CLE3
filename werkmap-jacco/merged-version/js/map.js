@@ -25,26 +25,26 @@ const gpsOptions = {
 
 
 const northWestCoords = {
-    lat: 51.917422377385854,
-    long: 4.484449450314969,
+    lat: 51.91738429705672,
+    long: 4.484339760175307,
 }
 const northEastCoords = {
-    lat: 51.917478021432544,
-    long: 4.484716487862897,
+    lat: 51.91749844903891,
+    long: 4.484891624644852,
 }
 const southWestCoords = {
-    lat: 51.91727858333623,
-    long: 4.484538127000633,
+    lat: 51.91725732331526,
+    long: 4.484431625828195,
 }
 const southEastCoords = {
-    lat: 51.91733537180129,
-    long: 4.48481101998118,
+    lat: 51.91737230280984,
+    long: 4.48496002097036,
 }
 
-const mapTop = Math.max(northWestCoords.lat, northEastCoords.lat, southWestCoords.lat, southEastCoords.lat)
-const mapBottom = Math.min(northWestCoords.lat, northEastCoords.lat, southWestCoords.lat, southEastCoords.lat);
-const mapLeft = Math.min(northWestCoords.long, northEastCoords.long, southWestCoords.long, southEastCoords.long);
-const mapRight = Math.max(northWestCoords.long, northEastCoords.long, southWestCoords.long, southEastCoords.long);
+const mapTop = Math.max(northWestCoords.lat, northEastCoords.lat)
+const mapBottom = Math.min(northWestCoords.lat, northEastCoords.lat);
+const mapLeft = Math.min(northWestCoords.long, northEastCoords.long);
+const mapRight = Math.max(northWestCoords.long, northEastCoords.long);
 const mapHeight = mapTop - mapBottom;
 const mapWidth = mapRight - mapLeft;
 
@@ -61,7 +61,7 @@ const latAngle = {
     c: (northWestCoords.lat - mapMiddlePoint.lat),
 }
 
-const longLength = Math.sqrt(Math.pow((northWestCoords.long - northEastCoords.long), 2) + Math.pow((northWestCoords.long - northEastCoords.long), 2));
+const longLength = Math.sqrt(Math.pow((northWestCoords.long - northEastCoords.long), 2) + Math.pow((northWestCoords.lat - northEastCoords.lat), 2));
 const longAngle = {
     a: (northWestCoords.long - southWestCoords.long) / (northWestCoords.lat - southWestCoords.lat),
     b: (southWestCoords.long - mapMiddlePoint.long),
@@ -76,8 +76,8 @@ console.log(longAngle);
 
 
 const breadPosition = {
-    lat: northWestCoords.lat - 51.91740136649008,
-    long: northWestCoords.long - 4.484541950864206
+    lat: northWestCoords.lat - 51.9173499141331,
+    long: northWestCoords.long - 4.484581157201401
 }
 const finalDestination = breadPosition;
 
@@ -227,10 +227,12 @@ function startUpdating() {
 
 async function updatePointerPosition(location) {
     const userPosition = {
-        // lat: 51.91733333391915,
-        // long: 4.484693345428029
-        lat: location.coords.latitude,
-        long: location.coords.longitude,
+        // lat: 51.91735232038332,
+        // long: 4.484836616954025
+        lat: 51.9173173579621,
+        long: 4.484589105824364
+        // lat: location.coords.latitude,
+        // long: location.coords.longitude,
     }
     console.log(`userLatitude is ${userPosition.lat} and userLongitude is ${userPosition.long}`);
 
@@ -250,7 +252,7 @@ async function updatePointerPosition(location) {
     mapAlign.style.transform = `translate(${xOffset}%, ${yOffset}%)`
     console.log(`mapBottom is ${xOffset} and mapTop is ${yOffset}`);
 
-    offsetDestinationPoint(userPosition, finalDestination,)
+    offsetDestinationPoint(userPosition, finalDestination)
     const destinationPointer = document.getElementById('destination-pointer');
     destinationPointer.style.transform = `translate(${destinationXOffset}px, ${destinationYOffset}px)`
 
@@ -258,10 +260,11 @@ async function updatePointerPosition(location) {
 }
 
 function offsetDestinationPoint(userPos, destination) {
-    const latOffset = (destination.lat - (northWestCoords.lat - userPos.lat)) / mapHeight;
-    const longOffset = (destination.long - (northWestCoords.long - userPos.long)) / mapWidth;
+    const latOffset = (destination.lat - (userPos.lat - northWestCoords.lat)) / latLength;
+    const longOffset = (destination.long - (userPos.long - northWestCoords.long)) / longLength;
     destinationYOffset = latOffset * window.innerHeight;
     destinationXOffset = longOffset * window.innerWidth;
+    console.log(destination)
     console.log(`destinationYOffset is ${destinationYOffset}`);
     console.log(`destinationXOffset is ${destinationXOffset}`);
 }
@@ -279,6 +282,12 @@ function algebruh(userVar, gpsVar, gpsVar2, distancetoTop) {
 
     distanceToStart = Math.sqrt(Math.pow((xPos - latAngle.b), 2) + Math.pow((yPos - latAngle.c), 2)) / distancetoTop;
 
+    console.log(`gpsVar.a = ${gpsVar.a}`)
+    console.log(`gpsVar.b = ${gpsVar.b}`)
+    console.log(`gpsVar.c = ${gpsVar.c}`)
+    console.log(`gpsVar2.a = ${gpsVar2.a}`)
+    console.log(`userVar.lat = ${userVar.lat}`)
+    console.log(`userVar.long = ${userVar.long}`)
     console.log(`the xPos is ${xPos}`);
     console.log(`the yPos is ${yPos}`);
     console.log(`The distance is ${distanceToStart}`);

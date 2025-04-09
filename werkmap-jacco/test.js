@@ -18,15 +18,11 @@
 { a: 0.20837536564102874, b: 0.00004407500146896837 }
 { a: -0.6166923171967137, b: -0.0001807848331054629 }
 
-6(x-4)+7 = 5(x-3)+18
-6(x-4) - 5(x-3) = 11
-1.2(x-4) - x - 3 = 2.2
-x - 0.8333x - 6.5 = 1.83333
-x - 0.8333x = 8.3333
-0.16667x = 8.33333
-x =
-
-
+a(x-b)+c = d(x-e)+f
+ax-ab+c = dx-de+f
+a-d = (de+f) - (ab+c)
+xpos = ((de+f)-(ab+c))/(a-d)
+ypos = a(x-b)+c
 
 */
 
@@ -64,25 +60,25 @@ const mapMiddlePoint = {
 const latLength = Math.sqrt(Math.pow((northWestCoords.lat - northEastCoords.lat), 2) + Math.pow((northWestCoords.long - northEastCoords.long), 2));
 const latAngle = {
     a: (northWestCoords.lat - northEastCoords.lat) / (northWestCoords.long - northEastCoords.long),
-    b: (northWestCoords.lat - mapMiddlePoint.lat),
-    c: (northWestCoords.long - mapMiddlePoint.long)
+    b: (northWestCoords.long - mapMiddlePoint.long),
+    c: (northWestCoords.lat - mapMiddlePoint.lat),
 }
 const latBAngle = {
     a: (northWestCoords.lat - northEastCoords.lat) / (northWestCoords.long - northEastCoords.long),
-    b: (northEastCoords.lat - mapMiddlePoint.lat),
-    c: (northEastCoords.long - mapMiddlePoint.long)
+    b: (northEastCoords.long - mapMiddlePoint.long),
+    c: (northEastCoords.lat - mapMiddlePoint.lat),
 }
 
 const longLength = Math.sqrt(Math.pow((northWestCoords.long - northEastCoords.long), 2) + Math.pow((northWestCoords.long - northEastCoords.long), 2));
 const longAngle = {
     a: (northWestCoords.long - southWestCoords.long) / (northWestCoords.lat - southWestCoords.lat),
-    b: (southWestCoords.lat - mapMiddlePoint.lat),
-    c: (southWestCoords.long - mapMiddlePoint.long)
+    b: (southWestCoords.long - mapMiddlePoint.long),
+    c: (southWestCoords.lat - mapMiddlePoint.lat),
 }
 const longBAngle = {
     a: (northWestCoords.long - southWestCoords.long) / (northWestCoords.lat - southWestCoords.lat),
-    b: (southEastCoords.lat - mapMiddlePoint.lat),
-    c: (southEastCoords.long - mapMiddlePoint.long)
+    b: (southEastCoords.long - mapMiddlePoint.long),
+    c: (southEastCoords.lat - mapMiddlePoint.lat),
 }
 
 const lookAtAllThoseChickens = [mapTop, mapBottom, mapLeft, mapRight, mapHeight, mapWidth, latLength, longLength];
@@ -113,4 +109,21 @@ async function setPosition() {
 
     console.log(userPositionDelta);
 
+    algebruh(userPositionDelta, latAngle, longAngle);
+    algebruh(userPositionDelta, longAngle, latAngle);
+}
+
+function algebruh (userVar, gpsVar, gpsVar2) {
+    const a = gpsVar2.a;
+    const b = userVar.long;
+    const c = userVar.lat;
+    const d = gpsVar.a;
+    const e = gpsVar.b;
+    const f = gpsVar.c;
+
+    const xpos = (((d*e + f)-(a*b + c))/(a - d));
+    const ypos = a*(xpos-b)+c;
+
+    console.log(`je moeder is een plopkoek ${xpos}`);
+    console.log(`je moeder is niet een plopkoek ${ypos}`);
 }

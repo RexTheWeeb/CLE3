@@ -269,7 +269,6 @@ footer h3 {
 }
 
 #details-list {
-    display: flex;
     justify-self: center;
     align-self: center;
 
@@ -280,7 +279,7 @@ footer h3 {
 }
 
 #details-list img {
-    width: 50vw;
+    width: 25vw;
 }
 
 #details-list button {
@@ -291,6 +290,54 @@ footer h3 {
 
 body.open-dialog {
     overflow: hidden;
+}
+
+dialog#details-list {
+    position: fixed;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    width: fit-content;
+}
+
+#confirmation-screen {
+    justify-self: center;
+    align-self: center;
+
+    max-width: 75vw;
+    max-height: 80vh;
+
+    font-size: 1.5rem;
+}
+
+#confirmation-screen img {
+    width: 25vw;
+}
+
+#confirmation-screen button {
+    padding: 3vh 5vw;
+    font-size: 1.5rem;
+    background-color: var(--products-lightgrey);
+}
+
+dialog#confirmation-screen {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#button-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 25px;
+}
+
+.product-card button {
+    padding: 3vh 5vw;
+    font-size: 1.5rem;
+    background-color: var(--products-lightgrey);
 }
 
 /*.buttons {*/
@@ -374,21 +421,43 @@ body.open-dialog {
         max-width: 75vw;
         max-height: 50vh;
 
-        font-size: 1.5rem;
+        font-size: 1rem;
 
         img {
             flex: 1;
             align-self: center;
-            width: 55vw;
+            width: 25vw;
         }
 
         h2 {
-            font-size: 2rem;
+            font-size: 1.50rem;
         }
 
         p {
-            font-size: 1.5rem;
+            font-size: 1rem;
         }
+    }
+
+    dialog#details-list {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    dialog#confirmation-screen {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    #dialog-wrapper {
+        overflow-x: hidden;
+        position: relative;
     }
 
     /*button {*/

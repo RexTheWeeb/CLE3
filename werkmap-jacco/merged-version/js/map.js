@@ -42,18 +42,23 @@ const southEastCoords = {
 }
 
 const mapTop = Math.max(northWestCoords.lat, northEastCoords.lat)
-const mapBottom = Math.min(northWestCoords.lat, northEastCoords.lat);
+const mapBottom = Math.min(southWestCoords.lat, southEastCoords.lat);
 const mapLeft = Math.min(northWestCoords.long, northEastCoords.long);
-const mapRight = Math.max(northWestCoords.long, northEastCoords.long);
+const mapRight = northEastCoords.long;
 const mapHeight = mapTop - mapBottom;
 const mapWidth = mapRight - mapLeft;
 
 const latLength = Math.sqrt(Math.pow((northWestCoords.lat - northEastCoords.lat), 2) + Math.pow((northWestCoords.long - northEastCoords.long), 2));
 const longLength = Math.sqrt(Math.pow((northWestCoords.long - northEastCoords.long), 2) + Math.pow((northWestCoords.lat - northEastCoords.lat), 2));
 
+console.log((northWestCoords.lat - (northWestCoords.lat - northEastCoords.lat)))
+console.log(((northWestCoords.lat - southWestCoords.lat) / 2))
+console.log((northEastCoords.long - (northWestCoords.long - northEastCoords.long)))
+console.log(((northWestCoords.long - southWestCoords.long) / 2))
+
 const mapMiddlePoint = {
-    lat: (mapTop - (mapHeight * 0.5)),
-    long: (mapRight - (mapWidth / 2)),
+    lat: (northWestCoords.lat + (northWestCoords.lat - northEastCoords.lat)) - ((northWestCoords.lat - southWestCoords.lat) / 2),
+    long: (northWestCoords.long + (northWestCoords.long - northEastCoords.long)) - ((northWestCoords.long - southWestCoords.long) / 2),
 }
 
 const latAngle = {
@@ -76,8 +81,8 @@ console.log(longAngle);
 
 
 const breadPosition = {
-    lat: northWestCoords.lat - 51.9173499141331,
-    long: northWestCoords.long - 4.484581157201401
+    lat: northWestCoords.lat - mapMiddlePoint.lat,
+    long: northWestCoords.long - mapMiddlePoint.long
 }
 const finalDestination = breadPosition;
 
@@ -97,8 +102,8 @@ function init() {
 
     loadBaseLayer();
     createMap();
-    navigator.geolocation.getCurrentPosition(showCurrentLocation);
-
+    // navigator.geolocation.getCurrentPosition(showCurrentLocation);
+    showCurrentLocation();
 }
 
 function loadBaseLayer() {
@@ -222,15 +227,16 @@ function startUpdating() {
     mapAlign = document.getElementById('shop-map')
     console.log('starts updating');
     createDestinationPointer();
-    gpsLocation = navigator.geolocation.watchPosition(updatePointerPosition, error, gpsOptions);
+    // gpsLocation = navigator.geolocation.watchPosition(updatePointerPosition, error, gpsOptions);
+    updatePointerPosition();
 }
 
 async function updatePointerPosition(location) {
     const userPosition = {
-        lat: 51.91735232038332,
-        long: 4.484836616954025
-        // lat: 51.91740137542602,
-        // long: 4.48452919321616
+        // lat: 51.91735232038332,
+        // long: 4.484836616954025
+        lat: 51.91740137542602,
+        long: 4.48452919321616
         // lat: location.coords.latitude,
         // long: location.coords.longitude,
     }
@@ -246,7 +252,7 @@ async function updatePointerPosition(location) {
 
     algebruh(userPositionDelta, latAngle, longAngle, latLength);
     yOffset = distanceToStart * 100;
-    if (userPosition.lat > mapMiddlePoint.lat) {
+    if (userPosition.lat < mapMiddlePoint.lat) {
         yOffset *= -1;
     }
     algebruh(userPositionDelta, longAngle, latAngle, longLength);
@@ -269,7 +275,7 @@ function offsetDestinationPoint(userPos, destination) {
     const longOffset = (destination.long - (userPos.long - northWestCoords.long)) / longLength;
     destinationYOffset = latOffset * window.innerHeight;
     destinationXOffset = longOffset * window.innerWidth;
-    console.log(destination)
+    console.log(destination);
     console.log(`destinationYOffset is ${destinationYOffset}`);
     console.log(`destinationXOffset is ${destinationXOffset}`);
 }

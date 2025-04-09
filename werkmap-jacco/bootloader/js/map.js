@@ -6,28 +6,80 @@ let gpsButton = null;
 // let zoom;
 
 let mapAlign;
+let xOffset;
+let yOffset;
+let destinationYOffset;
+let destinationXOffset;
+let distanceToStart;
 // let zoomAmount;
 
-let mapBottom;
-let mapLeft;
+
 let gpsLocation;
-// let scrollPos = 0;
 
-
-const middleLat = 51.91745720241767;
-const middleLong = 4.484286416720071;
-const deltaLong = 0.001683188127687;
-const deltaLat = 0.00075861969161;
-// const phonePosLat = 51.91733333391915;
-// const phonePosLong = 4.484693345428029;
-const phonePosLat = 51.91740202637835;
-const phonePosLong = 4.484222738958786;
 
 const gpsOptions = {
     enableHighAccuracy: true,
     timeout: 5000,
     maximumAge: 0,
 }
+
+
+const northWestCoords = {
+    lat: 51.917422377385854,
+    long: 4.484449450314969,
+}
+const northEastCoords = {
+    lat: 51.917478021432544,
+    long: 4.484716487862897,
+}
+const southWestCoords = {
+    lat: 51.91727858333623,
+    long: 4.484538127000633,
+}
+const southEastCoords = {
+    lat: 51.91733537180129,
+    long: 4.48481101998118,
+}
+
+const mapTop = Math.max(northWestCoords.lat, northEastCoords.lat, southWestCoords.lat, southEastCoords.lat)
+const mapBottom = Math.min(northWestCoords.lat, northEastCoords.lat, southWestCoords.lat, southEastCoords.lat);
+const mapLeft = Math.min(northWestCoords.long, northEastCoords.long, southWestCoords.long, southEastCoords.long);
+const mapRight = Math.max(northWestCoords.long, northEastCoords.long, southWestCoords.long, southEastCoords.long);
+const mapHeight = mapTop - mapBottom;
+const mapWidth = mapRight - mapLeft;
+
+
+const mapMiddlePoint = {
+    lat: mapTop - (mapHeight / 2),
+    long: mapRight - (mapWidth / 2),
+}
+
+const latLength = Math.sqrt(Math.pow((northWestCoords.lat - northEastCoords.lat), 2) + Math.pow((northWestCoords.long - northEastCoords.long), 2));
+const latAngle = {
+    a: (northWestCoords.lat - northEastCoords.lat) / (northWestCoords.long - northEastCoords.long),
+    b: (northWestCoords.long - mapMiddlePoint.long),
+    c: (northWestCoords.lat - mapMiddlePoint.lat),
+}
+
+const longLength = Math.sqrt(Math.pow((northWestCoords.long - northEastCoords.long), 2) + Math.pow((northWestCoords.long - northEastCoords.long), 2));
+const longAngle = {
+    a: (northWestCoords.long - southWestCoords.long) / (northWestCoords.lat - southWestCoords.lat),
+    b: (southWestCoords.long - mapMiddlePoint.long),
+    c: (southWestCoords.lat - mapMiddlePoint.lat),
+}
+
+
+const lookAtAllThoseChickens = [mapTop, mapBottom, mapLeft, mapRight, mapHeight, mapWidth, latLength, longLength];
+console.log(`look at all those numbers ${lookAtAllThoseChickens}`);
+console.log(latAngle);
+console.log(longAngle);
+
+
+const breadPosition = {
+    lat: northWestCoords.lat - 51.91740136649008,
+    long: northWestCoords.long - 4.484541950864206
+}
+const finalDestination = breadPosition;
 
 
 function init() {
@@ -46,7 +98,7 @@ function init() {
     loadBaseLayer();
     createMap();
     navigator.geolocation.getCurrentPosition(showCurrentLocation);
-    
+
 }
 
 function loadBaseLayer() {
@@ -83,22 +135,6 @@ function buttonClickHandler() {
     navigator.geolocation.getCurrentPosition(showCurrentLocation);
 }
 
-/*function scrollZoomHandler() {
-    /!*  if scroll in enlarge image
-        if scroll out shrink image
-    *!/
-    console.log('starting scroll function');
-    // scrollPos = window.scr;
-    console.log('currently scroll pos is ' + scrollPos);
-    if (scrollPos >= 1) {
-        scrollPos = 1
-    } else if (scrollPos <= 0) {
-        scrollPos = 0;
-    }
-
-    // document.getElementById('shop-map').transform = (scale(scrollPos))
-
-}*/
 
 //creates a stop gpsButton and removes the initial start gpsButton and
 function createExitButton() {
@@ -143,47 +179,19 @@ function stopWatchingPos() {
 function createMap() {
     const navWindow = document.createElement("body");
     navWindow.id = 'navigator-window';
-    navWindow.style.position = 'absolute';
-    navWindow.style.justifySelf = 'anchor-center'
-    if (window.innerHeight > window.innerWidth) {
-        navWindow.style.height = '80vh';
-        navWindow.style.width = '100vw';
-    } else {
-        navWindow.style.height = '100vh';
-        navWindow.style.width = '50vw';
-    }
     document.getElementById('map-window').appendChild(navWindow);
 
 
     const mapDiv = document.createElement("div");
     mapDiv.id = 'map-div';
-    mapDiv.style.height = '100%';
-    mapDiv.style.width = '100%';
-    mapDiv.style.overflow = 'hidden';
-    mapDiv.style.position = 'absolute';
-    mapDiv.style.zIndex = '1';
-    mapDiv.style.display = 'flex';
-    mapDiv.style.justifyContent = 'center';
     navWindow.appendChild(mapDiv)
 
     console.log(`creating the map`)
     const mapImage = document.createElement("img");
     mapImage.id = 'shop-map';
-    mapImage.src = `../images/school-maps-view.png`;
+    mapImage.src = `../images/Map_schoolTest.png`;
     mapImage.alt = "";
-    mapImage.style.position = 'absolute';
-    mapImage.style.height = '100%';
-    mapImage.style.width = 'auto';
     mapDiv.appendChild(mapImage);
-
-
-    if (window.innerHeight > window.innerWidth) {
-        navWindow.height = '80vh';
-        navWindow.width = '100vw';
-    } else {
-        navWindow.height = '100vh';
-    }
-
 
 }
 
@@ -195,23 +203,95 @@ function showCurrentLocation() {
     pointer.id = ('pointer-arrow');
     pointer.src = "../images/map_arrow.png";
     pointer.alt = '';
-    pointer.style.position = 'absolute';
-    pointer.style.alignSelf = 'anchor-center';
-    pointer.style.justifySelf = 'anchor-center';
-    pointer.style.zIndex = '2';
-    pointer.style.height = '50px';
     document.getElementById('navigator-window').appendChild(pointer);
 
     startUpdating();
 }
 
+function createDestinationPointer() {
+
+    const destinationPointer = document.createElement("img");
+    destinationPointer.id = ('destination-pointer');
+    destinationPointer.src = "../images/destination_pointer.png";
+    destinationPointer.alt = '';
+    document.getElementById('navigator-window').appendChild(destinationPointer);
+
+}
+
 function startUpdating() {
     mapAlign = document.getElementById('shop-map')
     console.log('starts updating');
+    createDestinationPointer();
     gpsLocation = navigator.geolocation.watchPosition(updatePointerPosition, error, gpsOptions);
 }
 
 async function updatePointerPosition(location) {
+    const userPosition = {
+        // lat: 51.91733333391915,
+        // long: 4.484693345428029
+        lat: location.coords.latitude,
+        long: location.coords.longitude,
+    }
+    console.log(`userLatitude is ${userPosition.lat} and userLongitude is ${userPosition.long}`);
+
+    const userPositionDelta = {
+        lat: userPosition.lat - mapMiddlePoint.lat,
+        long: userPosition.long - mapMiddlePoint.long
+    }
+
+    console.log(userPositionDelta);
+
+    algebruh(userPositionDelta, latAngle, longAngle, latLength);
+    yOffset = distanceToStart * -100;
+
+    algebruh(userPositionDelta, longAngle, latAngle, longLength);
+    xOffset = distanceToStart * -100;
+
+    mapAlign.style.transform = `translate(${xOffset}%, ${yOffset}%)`
+    console.log(`mapBottom is ${xOffset} and mapTop is ${yOffset}`);
+
+    offsetDestinationPoint(userPosition, finalDestination,)
+    const destinationPointer = document.getElementById('destination-pointer');
+    destinationPointer.style.transform = `translate(${destinationXOffset}px, ${destinationYOffset}px)`
+
+
+}
+
+function offsetDestinationPoint(userPos, destination) {
+    const latOffset = (destination.lat - (northWestCoords.lat - userPos.lat)) / mapHeight;
+    const longOffset = (destination.long - (northWestCoords.long - userPos.long)) / mapWidth;
+    destinationYOffset = latOffset * window.innerHeight;
+    destinationXOffset = longOffset * window.innerWidth;
+    console.log(`destinationYOffset is ${destinationYOffset}`);
+    console.log(`destinationXOffset is ${destinationXOffset}`);
+}
+
+function algebruh(userVar, gpsVar, gpsVar2, distancetoTop) {
+    const a = gpsVar2.a;
+    const b = userVar.long;
+    const c = userVar.lat;
+    const d = gpsVar.a;
+    const e = gpsVar.b;
+    const f = gpsVar.c;
+
+    const xPos = (((d * e + f) - (a * b + c)) / (a - d));
+    const yPos = a * (xPos - b) + c;
+
+    distanceToStart = Math.sqrt(Math.pow((xPos - latAngle.b), 2) + Math.pow((yPos - latAngle.c), 2)) / distancetoTop;
+
+    console.log(`the xPos is ${xPos}`);
+    console.log(`the yPos is ${yPos}`);
+    console.log(`The distance is ${distanceToStart}`);
+}
+
+
+function error(err) {
+    console.warn(`ERROR(${err.code}): ${err.message}`);
+}
+
+
+/*
+async function setPosition() {
     const userLatitude = location.coords.latitude;
     const userLongitude = location.coords.longitude;
     console.log(`userLongitude is ${userLongitude} and userLatitude is ${userLatitude}`);
@@ -235,20 +315,30 @@ async function updatePointerPosition(location) {
 
     console.log(document.getElementById('navigator-window').height);
 
-
-    mapBottom = latitudeScreenPos.toFixed(5);
-    mapLeft = longitudeScreenPos.toFixed(5);
-    mapAlign.style.transform = `translate(${mapLeft}%, ${mapBottom}%)`
-    console.log(`mapBottom is ${mapBottom} and mapTop is ${mapLeft}`);
-    /*    if (document.getElementById('show-map') != undefined) {
-            console.log(`movetest is currently ${moveTest}`)
-            const mapTransform = document.getElementById('shop-map');
-            mapTransform.style.transform = `rotate(${moveTest}deg)`;
-        }*/
 }
+const middleLat = 51.91745720241767;
+const middleLong = 4.484286416720071;
+const deltaLong = 0.001683188127687;
+const deltaLat = 0.00075861969161;
+// const phonePosLat = 51.91733333391915;
+// const phonePosLong = 4.484693345428029;
+const phonePosLat = 51.91740202637835;
+const phonePosLong = 4.484222738958786;
 
-function error(err) {
-    console.warn(`ERROR(${err.code}): ${err.message}`);
-}
 
+function scrollZoomHandler() {
+    /!*  if scroll in enlarge image
+        if scroll out shrink image
+    *!/
+    console.log('starting scroll function');
+    // scrollPos = window.scr;
+    console.log('currently scroll pos is ' + scrollPos);
+    if (scrollPos >= 1) {
+        scrollPos = 1
+    } else if (scrollPos <= 0) {
+        scrollPos = 0;
+    }
 
+    // document.getElementById('shop-map').transform = (scale(scrollPos))
+
+}*/

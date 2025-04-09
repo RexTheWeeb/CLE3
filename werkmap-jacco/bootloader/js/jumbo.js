@@ -104,7 +104,7 @@ function fillShopAddressCard(shopAddress) {
 
     // add img
     const shopImage = document.createElement('img');
-    shopImage.src = '../webservice/img/Jumbo.png';
+    shopImage.src = '../webservice/img/jumbo.png';
     shopImage.alt = shopAddress.shop;
     shopAddressCard.appendChild(shopImage);
 

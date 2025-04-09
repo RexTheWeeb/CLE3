@@ -10,7 +10,12 @@
     <title>ShopNav</title>
 </head>
 
-<body>
+<body id="full-window">
+<button id="search">
+    <img src="images/search-icon.png" alt="">
+    <input type="text" id="search-balk" name="search" placeholder="Search" style="">
+    <label for="search-balk"></label>
+</button>
 <main id="page-loader">
 </main>
 <footer id="page-selector">
@@ -21,5 +26,10 @@
         <button onclick="frameLoader(gpsFrame, jumboFrame)" id="go-to-nav" class="nav-button">Menu</button>
     </div>
 </footer>
+
+<dialog class="modal" id="pokemon-detail">
+    <div class="modal-content"></div>
+</dialog>
+
 </body>
 </html>

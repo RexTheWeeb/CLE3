@@ -12,11 +12,23 @@ const jumboFrame = {
     src: `./html/jumbo.html`
 }
 
+let detailModal;
+let detailContent;
+
 function init() {
+    if (window.innerHeight > window.innerWidth) {
+        document.getElementById('full-window').style.height = parseFloat(window.innerHeight) + 'px';
+        console.log('testing height');
+    }
+
     frameLoader(false, gpsFrame);
 }
 
 function frameLoader(unloadOld, frameData) {
+    if (document.getElementById(frameData.id)) {
+        return;
+    }
+    console.log('changing window');
     if (unloadOld) {
         frameRemover(unloadOld);
     }
@@ -29,4 +41,24 @@ function frameLoader(unloadOld, frameData) {
 
 function frameRemover(frameData) {
     document.getElementById(frameData.id).remove();
+}
+
+function searchClickHandler() {
+
+    detailContent.appendChild();
+
+
+    detailModal.showModal();
+    document.body.classList.add('dialog-open');
+}
+
+function detailModalClickHandler(e) {
+    if (e.target.nodeName === 'DIALOG' || e.target.nodeName === 'BUTTON') {
+        detailModal.close();
+    }
+}
+
+
+function detailModalCloseHandler() {
+    document.body.classList.remove('dialog-open');
 }

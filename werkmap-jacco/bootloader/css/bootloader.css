@@ -3,12 +3,17 @@
 /* de kleuren van de styleguide */
 
 body {
-    width: 1080px;
-    height: 2160px;
+    font-size: 14px;
+    width: 100vw;
+    height: 100vh;
     margin: 0;
     overflow: hidden;
     box-sizing: border-box;
     background-color: whitesmoke;
+    display: flex;
+    flex-flow: wrap row;
+    justify-content: center;
+    align-content: center;
 }
 
 
@@ -66,21 +71,51 @@ img {
 }
 
 #page-loader {
-    height: 90vh;
-    width: 100vw;
+    height: 90%;
+    width: 100%;
 }
 
+#search {
+    height: 10vh;
+    width: 80vw;
+    left: 10vw;
+    position: absolute;
+    z-index: 2;
+    top: 3vh;
+    display: flex;
+    flex-flow: wrap;
+    flex-direction: column;
+    align-content: space-evenly;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 15px;
+    border-radius: 100px;
+}
+
+#search img {
+    max-height: 80%;
+    width: auto;
+}
+
+#search-balk {
+    width: 80%;
+    font-size: 75px;
+    height: 90%;
+    border: 0;
+}
 
 main {
     display: flex;
     flex-flow: column wrap;
     align-content: center;
     justify-content: center;
-    height: 100vh;
-    @media (orientation: portrait) {
-        height: 80vh;
-        width: 100vw;
-    }
+    height: 90%;
+    width: 100%;
+}
+
+iframe {
+    height: 100%;
+    width: 100%;
 }
 
 footer {
@@ -104,11 +139,6 @@ footer {
     color: ghostwhite;
     background-color: #0a53be;
 
-}
-
-iframe {
-    height: 90vh;
-    width: 100vw;
 }
 
 .nav-buttons-div {

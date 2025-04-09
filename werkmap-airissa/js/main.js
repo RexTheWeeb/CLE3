@@ -219,7 +219,7 @@ function fillShopAddressCard(shopAddress) {
 
     // add img
     const shopImage = document.createElement('img');
-    shopImage.src = 'img/Jumbo.png';
+    shopImage.src = 'img/jumbo.png';
     shopImage.alt = shopAddress.shop;
     shopAddressCard.appendChild(shopImage);
 

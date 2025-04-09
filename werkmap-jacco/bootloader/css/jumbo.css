@@ -143,8 +143,9 @@ header button {
     background-color: var(--products-white);
 }
 
-.shopAddress-card h2, h3 {
+.shopAddress-card h2, h3, a {
     color: black;
+    text-decoration: none;
 }
 
 #find-shop {

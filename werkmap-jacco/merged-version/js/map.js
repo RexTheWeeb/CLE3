@@ -23,52 +23,51 @@ const gpsOptions = {
     maximumAge: 0,
 }
 
-
+// 51.91752125943018, 4.484287289251746
 const northWestCoords = {
-    lat: 51.91738429705672,
-    long: 4.484339760175307,
+    lat: 51.91752125943018,
+    long: 4.484287289251746
 }
 const northEastCoords = {
-    lat: 51.91749844903891,
-    long: 4.484891624644852,
+    lat: 51.91752125943018,
+    long: 4.485004780150682
 }
 const southWestCoords = {
-    lat: 51.91725732331526,
-    long: 4.484431625828195,
+    lat: 51.91724415099535,
+    long: 4.484287289251746,
 }
 const southEastCoords = {
-    lat: 51.91737230280984,
-    long: 4.48496002097036,
+    lat: 51.91724415099535,
+    long: 4.485004780150682,
 }
 
-const mapTop = Math.max(northWestCoords.lat, northEastCoords.lat)
-const mapBottom = Math.min(southWestCoords.lat, southEastCoords.lat);
-const mapLeft = Math.min(northWestCoords.long, northEastCoords.long);
+const mapTop = northWestCoords.lat;
+const mapBottom = southWestCoords.lat;
+const mapLeft = northWestCoords.long;
 const mapRight = northEastCoords.long;
-const mapHeight = mapTop - mapBottom;
-const mapWidth = mapRight - mapLeft;
+const mapHeight = northWestCoords.lat - southWestCoords.lat;
+const mapWidth = northEastCoords.long - northWestCoords.long;
 
-const latLength = Math.sqrt(Math.pow((northWestCoords.lat - northEastCoords.lat), 2) + Math.pow((northWestCoords.long - northEastCoords.long), 2));
-const longLength = Math.sqrt(Math.pow((northWestCoords.long - northEastCoords.long), 2) + Math.pow((northWestCoords.lat - northEastCoords.lat), 2));
+// const latLength = Math.sqrt(Math.pow((northWestCoords.lat - northEastCoords.lat), 2) + Math.pow((northWestCoords.long - northEastCoords.long), 2));
+// const longLength = Math.sqrt(Math.pow((northWestCoords.long - northEastCoords.long), 2) + Math.pow((northWestCoords.lat - northEastCoords.lat), 2));
 
-console.log((northWestCoords.lat - (northWestCoords.lat - northEastCoords.lat)))
-console.log(((northWestCoords.lat - southWestCoords.lat) / 2))
-console.log((northEastCoords.long - (northWestCoords.long - northEastCoords.long)))
-console.log(((northWestCoords.long - southWestCoords.long) / 2))
+const latLength = northWestCoords.lat - southWestCoords.lat;
+const longLength = northEastCoords.long - northWestCoords.long;
+
 
 const mapMiddlePoint = {
-    lat: (northWestCoords.lat + (northWestCoords.lat - northEastCoords.lat)) - ((northWestCoords.lat - southWestCoords.lat) / 2),
-    long: (northWestCoords.long + (northWestCoords.long - northEastCoords.long)) - ((northWestCoords.long - southWestCoords.long) / 2),
+    lat: northWestCoords.lat - ((northWestCoords.lat - southWestCoords.lat) / 2),
+    long: northWestCoords.long - ((northWestCoords.long - southWestCoords.long) / 2),
 }
 
 const latAngle = {
-    a: (northWestCoords.lat - northEastCoords.lat) / (northWestCoords.long - northEastCoords.long),
+    a: (northWestCoords.long - northEastCoords.long),
     b: (northWestCoords.long - mapMiddlePoint.long),
     c: (northWestCoords.lat - mapMiddlePoint.lat),
 }
 
 const longAngle = {
-    a: (northWestCoords.long - southWestCoords.long) / (northWestCoords.lat - southWestCoords.lat),
+    a: (northWestCoords.lat - southWestCoords.lat),
     b: (southWestCoords.long - mapMiddlePoint.long),
     c: (southWestCoords.lat - mapMiddlePoint.lat),
 }
@@ -128,56 +127,6 @@ function loadBaseLayer() {
 
     const mapWindow = document.createElement("main");
     mapWindow.id = 'map-window';
-}
-
-//start gpsButton code
-function buttonClickHandler() {
-
-    createExitButton();
-    if (document.getElementById('shop-map') == undefined) {     //test if map is already drawn
-        createMap();
-    }
-    navigator.geolocation.getCurrentPosition(showCurrentLocation);
-}
-
-
-//creates a stop gpsButton and removes the initial start gpsButton and
-function createExitButton() {
-    console.log('start creating exit gpsButton')
-    gpsButton.removeEventListener('click', buttonClickHandler);
-    gpsButton.remove();
-
-    const exitButton = document.createElement("Button");
-    exitButton.id = ("go-to-gps");
-    exitButton.className = ('nav-button');
-    exitButton.innerText = 'Stop tracking';
-    document.getElementById('gps-selector').appendChild(exitButton);
-    exitButton.addEventListener('click', stopWatchingPos);
-}
-
-function stopWatchingPos() {
-    /* stop watching pos
-    Remove stop gpsButton
-    add back start gpsButton
-     */
-    navigator.geolocation.clearWatch(gpsLocation);
-    if (document.getElementById('pointer-arrow') != undefined) {
-        const pointer = document.getElementById("pointer-arrow");
-        pointer.remove();
-    }
-
-    const exitButton = document.getElementById('go-to-gps');
-    exitButton.removeEventListener('click', stopWatchingPos);
-    exitButton.remove();
-    console.log('did the gpsButton get removed?');
-
-
-    gpsButton = document.createElement("Button");
-    gpsButton.id = ("go-to-gps");
-    gpsButton.className = ('nav-button');
-    gpsButton.innerText = 'Start tracking';
-    document.getElementById("gps-selector").appendChild(gpsButton);
-    gpsButton.addEventListener('click', buttonClickHandler);
 }
 
 //draws the map as the bottom layer
@@ -250,18 +199,19 @@ async function updatePointerPosition(location) {
 
     console.log(userPositionDelta);
 
-    algebruh(userPositionDelta, latAngle, longAngle, latLength);
-    yOffset = distanceToStart * 100;
-    if (userPosition.lat < mapMiddlePoint.lat) {
-        yOffset *= -1;
-    }
-    algebruh(userPositionDelta, longAngle, latAngle, longLength);
-    xOffset = distanceToStart * 100;
-    if (userPosition.long > mapMiddlePoint.long) {
-        xOffset *= -1;
-    }
+    // algebruh(userPositionDelta, latAngle, longAngle, latLength);
+    // algebruh(userPositionDelta, longAngle, latAngle, longLength);
+
+    const mapYOffset = userPositionDelta.lat / mapHeight;
+    const mapXOffset = userPositionDelta.long / (mapWidth);
+    console.log(`mapXOffset = ${mapXOffset} mapYOffset = ${mapYOffset}`)
+    console.log(`mapYOffset = ${(userPosition.lat - mapMiddlePoint.lat)}`)
+    console.log(`mapXOffset = ${(userPosition.long - mapMiddlePoint.long)}`)
+    xOffset = mapXOffset * 100;
+    yOffset = mapYOffset * 100;
+
     mapAlign.style.transform = `translate(${xOffset}%, ${yOffset}%)`
-    console.log(`mapBottom is ${xOffset} and mapTop is ${yOffset}`);
+    console.log(`mapRight is ${xOffset} and mapTop is ${yOffset}`);
 
     offsetDestinationPoint(userPosition, finalDestination)
     const destinationPointer = document.getElementById('destination-pointer');
@@ -269,6 +219,18 @@ async function updatePointerPosition(location) {
 
 
 }
+
+/*function moveMap(userPos) {
+
+    yOffset = destinationYOffset;
+    if (userPosition.lat < mapMiddlePoint.lat) {
+        yOffset *= -1;
+    }
+    xOffset = destinationXOffset;
+    if (userPosition.long > mapMiddlePoint.long) {
+        xOffset *= -1;
+    }
+}*/
 
 function offsetDestinationPoint(userPos, destination) {
     const latOffset = (destination.lat - (northWestCoords.lat - userPos.lat)) / latLength;
@@ -278,30 +240,6 @@ function offsetDestinationPoint(userPos, destination) {
     console.log(destination);
     console.log(`destinationYOffset is ${destinationYOffset}`);
     console.log(`destinationXOffset is ${destinationXOffset}`);
-}
-
-function algebruh(userVar, gpsVar, gpsVar2, distancetoTop) {
-    const a = gpsVar2.a;
-    const b = userVar.long;
-    const c = userVar.lat;
-    const d = gpsVar.a;
-    const e = gpsVar.b;
-    const f = gpsVar.c;
-
-    const xPos = (((d * e + f) - (a * b + c)) / (a - d));
-    const yPos = a * (xPos - b) + c;
-
-    distanceToStart = Math.sqrt(Math.pow((xPos - longAngle.b), 2) + Math.pow((yPos - latAngle.c), 2)) / distancetoTop;
-
-    console.log(`gpsVar.a = ${gpsVar.a}`)
-    console.log(`gpsVar.b = ${gpsVar.b}`)
-    console.log(`gpsVar.c = ${gpsVar.c}`)
-    console.log(`gpsVar2.a = ${gpsVar2.a}`)
-    console.log(`userVar.lat = ${userVar.lat}`)
-    console.log(`userVar.long = ${userVar.long}`)
-    console.log(`the xPos is ${xPos}`);
-    console.log(`the yPos is ${yPos}`);
-    console.log(`The distance is ${distanceToStart}`);
 }
 
 
@@ -360,5 +298,81 @@ function scrollZoomHandler() {
     }
 
     // document.getElementById('shop-map').transform = (scale(scrollPos))
+
+function algebruh(userVar, gpsVar, gpsVar2, distancetoTop) {
+    const a = gpsVar2.a;
+    const b = userVar.long;
+    const c = userVar.lat;
+    const d = gpsVar.a;
+    const e = gpsVar.b;
+    const f = gpsVar.c;
+
+    const xPos = (((d * e + f) - (a * b + c)) / (a - d));
+    const yPos = a * (xPos - b) + c;
+
+    distanceToStart = Math.sqrt(Math.pow((xPos - longAngle.b), 2) + Math.pow((yPos - latAngle.c), 2)) / distancetoTop;
+
+    console.log(`gpsVar.a = ${gpsVar.a}`)
+    console.log(`gpsVar.b = ${gpsVar.b}`)
+    console.log(`gpsVar.c = ${gpsVar.c}`)
+    console.log(`gpsVar2.a = ${gpsVar2.a}`)
+    console.log(`userVar.lat = ${userVar.lat}`)
+    console.log(`userVar.long = ${userVar.long}`)
+    console.log(`the xPos is ${xPos}`);
+    console.log(`the yPos is ${yPos}`);
+    console.log(`The distance is ${distanceToStart}`);
+}
+
+
+//start gpsButton code
+function buttonClickHandler() {
+
+    createExitButton();
+    if (document.getElementById('shop-map') == undefined) {     //test if map is already drawn
+        createMap();
+    }
+    navigator.geolocation.getCurrentPosition(showCurrentLocation);
+}
+
+
+//creates a stop gpsButton and removes the initial start gpsButton and
+function createExitButton() {
+    console.log('start creating exit gpsButton')
+    gpsButton.removeEventListener('click', buttonClickHandler);
+    gpsButton.remove();
+
+    const exitButton = document.createElement("Button");
+    exitButton.id = ("go-to-gps");
+    exitButton.className = ('nav-button');
+    exitButton.innerText = 'Stop tracking';
+    document.getElementById('gps-selector').appendChild(exitButton);
+    exitButton.addEventListener('click', stopWatchingPos);
+}
+
+function stopWatchingPos() {
+     stop watching pos
+    Remove stop gpsButton
+    add back start gpsButton
+
+navigator.geolocation.clearWatch(gpsLocation);
+if (document.getElementById('pointer-arrow') != undefined) {
+    const pointer = document.getElementById("pointer-arrow");
+    pointer.remove();
+}
+
+const exitButton = document.getElementById('go-to-gps');
+exitButton.removeEventListener('click', stopWatchingPos);
+exitButton.remove();
+console.log('did the gpsButton get removed?');
+
+
+gpsButton = document.createElement("Button");
+gpsButton.id = ("go-to-gps");
+gpsButton.className = ('nav-button');
+gpsButton.innerText = 'Start tracking';
+document.getElementById("gps-selector").appendChild(gpsButton);
+gpsButton.addEventListener('click', buttonClickHandler);
+}
+
 
 }*/
